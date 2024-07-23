@@ -1,0 +1,11 @@
+.react-date-picker__wrapper{
+    border: unset !important;
+    display: flex !important;
+}
+.react-date-picker__calendar{
+    width: auto;
+}
+.react-calendar{
+    width: auto;
+
+}
