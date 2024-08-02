@@ -1,0 +1,33 @@
+resources:
+  repositories:
+    - repository: self
+      trigger: none
+
+stages:
+  - stage: Build
+    displayName: Build React Application
+    jobs:
+      - job: Build
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: "20.16.0"
+
+          - script: npm install
+            displayName: "Install Dependencies"
+
+          - script: npm run build
+            displayName: "Build Application"
+
+          - script: npm test
+            displayName: "Run Tests"
+
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish Artifact"
+            inputs:
+              PathtoPublish: "build"
+              ArtifactName: "drop"
+              publishLocation: "Container"

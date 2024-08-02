@@ -38,13 +38,10 @@ export function Calendar({
           yearPlaceholder="yyyy"
           onChange={handleChange}
           value={value}
-          className={`${bgColor ? bgColor : "bg-black"} w-full border ${
-            radius ? radius : "rounded-full"
-          } border-[#696969] focus:outline-none  py-3 px-3 ${
-            height && "h-14"
-          } ${
-            textColor ? textColor : "text-white"
-          } placeholder:text-sm placeholder:text-[#696969]`}
+          className={`${bgColor ? bgColor : "bg-black"} w-full border ${radius ? radius : "rounded-full"
+            } border-[#696969] focus:outline-none  py-3 px-3 ${height && "h-14"
+            } ${textColor ? textColor : "text-white"
+            } placeholder:text-sm placeholder:text-[#696969]`}
           size="lg"
           format={"yyyy-MM-dd"}
           {...props}
