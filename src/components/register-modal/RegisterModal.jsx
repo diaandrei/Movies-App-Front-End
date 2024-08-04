@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { SignInForm } from "../sign-in-form";
+import { SignInForm } from "../sign-in-form/SignInForm";
 
 export const RegisterModal = ({ modalIsOpen, closeModal }) => {
   const customStyles = {

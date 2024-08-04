@@ -1,7 +1,7 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
 import {path} from '../common/routesNames';
-import {getToken} from '../utils/LocalStorage';
+import { getToken } from "/utils/LocalStorage.js";
 
 const PublicRoute = ({children}) => {
   const isLoggedIn = getToken() !== '';
