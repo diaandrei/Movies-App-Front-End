@@ -1,124 +1,253 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  useDeleteApiMoviesDeleteMovieWatchListMutation,
+  useLazyGetApiMoviesAllMovieWatchListQuery,
+  useLazyGetApiMoviesFavoriteMoviesListQuery,
+} from "../../redux/slice/movies.ts";
+import { GenericModal } from "../../components/modal/GenericModal";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { CircularProgress } from "@mui/material";
+import { toast } from "react-toastify";
+import { IoClose } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { getUserName } from "../../utils/LocalStorage.js";
 
-const dummyData = [
-  {
-    id: 0,
-    img: "https://images.unsplash.com/photo-1615650949849-37db4f2c67db?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "1. House of the Dragon",
-    createdDate: "2022–",
-    noOfEpi: "20 eps",
-    ratings: "8.4",
-    desc: "An internal succession war within House Targaryen at the height of its power, 172 years before the birth of Daenerys Targaryen.",
-    creator: [
-      {
-        id: 0,
-        name: "Ryan J. Condal",
-        url: "https://www.imdb.com/name/nm2952284/?ref_=wl_pc_1",
-      },
-      {
-        id: 1,
-        name: "George R.R. Martin",
-        url: "https://www.imdb.com/name/nm0552333/?ref_=wl_pc_1",
-      },
-    ],
-    stars: [
-      {
-        id: 0,
-        name: "Matt Smith",
-        url: "https://www.imdb.com/name/nm1741002/?ref_=wl_pca_1_1",
-      },
-      {
-        id: 1,
-        name: "Emma D'Arcy",
-        url: "https://www.imdb.com/name/nm8458664/?ref_=wl_pca_2_1",
-      },
-      {
-        id: 2,
-        name: "Olivia Cooke",
-        url: "https://www.imdb.com/name/nm4972453/?ref_=wl_pca_3_1",
-      },
-    ],
-  },
-  {
-    id: 1,
-    img: "https://images.unsplash.com/photo-1615650949849-37db4f2c67db?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "2. Gladiator II",
-    createdDate: "2024",
-    noOfEpi: "",
-    ratings: "",
-    desc: "After his home is conquered by the tyrannical emperors who now lead Rome, Lucius is forced to enter the Colosseum and must look to his past to find strength to return the glory of Rome to its people.",
-    creator: [
-      {
-        id: 0,
-        name: "Ridley Scott",
-        url: "",
-      },
-    ],
-    stars: [
-      {
-        id: 0,
-        name: "Paul Mescal",
-        url: "",
-      },
-      {
-        id: 1,
-        name: "Joseph Quinn",
-        url: "",
-      },
-      {
-        id: 2,
-        name: "Connie Nielsen",
-        url: "",
-      },
-    ],
-  },
-];
 const WatchList = () => {
+  const getName = getUserName();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDetail, setModalDetail] = useState({
+    modalType: "",
+    modalMessage: "",
+  });
+  const [movieId, setMovieId] = useState(null);
+  const [getFansFavouriteApi] = useLazyGetApiMoviesFavoriteMoviesListQuery();
+  const [fansFavoriteMovieList, setFansFavoriteMovieList] = useState([]);
+
+  const openModal = (type, message, id) => {
+    setMovieId(id);
+    setModalDetail({
+      modalType: type,
+      modalMessage: message,
+    });
+
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const [watchListApi, { isLoading }] =
+    useLazyGetApiMoviesAllMovieWatchListQuery();
+  const [deleteWatchListMovieApi, { isLoading: confirmBtnLoader }] =
+    useDeleteApiMoviesDeleteMovieWatchListMutation();
+
+  const [watchListContent, setWatchListContent] = useState([]);
+  console.log("watchListContent", watchListContent);
+  useEffect(() => {
+    fetchAllWatchList();
+    fetchFansFavoriteList();
+  }, []);
+
+  const fetchAllWatchList = async () => {
+    let response = await watchListApi();
+    const {
+      data: {
+        success,
+        content: { items },
+      },
+    } = response;
+    if (response && success) {
+      setWatchListContent(items || []);
+    }
+  };
+
+  const deleteMovieFromWatchList = async () => {
+    let response = await deleteWatchListMovieApi({ userWatchlistId: movieId });
+    const {
+      data: { success, title },
+    } = response;
+    if (response && success) {
+      toast.success(title);
+    } else {
+      toast.error(title);
+    }
+    setModalOpen(false);
+    window.location.reload();
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredWatchList = watchListContent?.filter((movie) =>
+    movie.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const onClear = () => {
+    setSearchQuery("");
+  };
+
+  const fetchFansFavoriteList = async () => {
+    try {
+      let result = await getFansFavouriteApi({
+        title: "",
+      });
+      const {
+        data: {
+          success,
+          content: { items },
+        },
+      } = result;
+      if (result && success) {
+        if (items?.length > 0) {
+          setFansFavoriteMovieList(items || []);
+        }
+      }
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  };
+
+  function getUniqueMovies(array1, array2) {
+    return array2.filter(
+      (movie2) => !array1.some((movie1) => movie1.id === movie2.id)
+    );
+  }
+
   return (
-    <div className="">
+    <div className="bg-white min-h-screen overflow-y-scroll">
       <div className="bg-[#1f1f1f] h-48">
         <div className="max-w-7xl mx-auto h-full ">
           <div className="flex items-center h-full">
-            <div>
+            <div className=" lg:ml-0  ml-5">
               <span className="text-white text-2xl font-bold">
                 Your Watchlist
               </span>
               <p className="text-[#BCBCBC] mt-3 text-sm font-semibold">
                 {
-                  "Your Watchlist is the place to track the titles you want to watch. You can sort your Watchlist by the IMDb rating, popularity score and arrange your titles in the order you want to see them."
+                  "Track the titles you want to watch in your Watchlist."
                 }
               </p>
             </div>
           </div>
-          <div className="flex h-screen">
-            <div className="w-3/4 p-4  overflow-y-auto">
-              <div className="rounded-md mb-4  border">
-                {dummyData.map((movie, index) => (
-                  <MovieCard key={movie.id} movie={movie} index={index} />
-                ))}
+          {isLoading ? (
+            <div className=" mt-24 flex items-center justify-center  ">
+              <CircularProgress
+                size={30}
+                thickness={5}
+                sx={{ color: "black" }}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col md:flex-row bg-white">
+              <div className="w-full md:w-3/4 p-4 overflow-y-auto">
+                <div className="mb-4 flex border px-2 py-1 rounded-full border-gray-700 items-center">
+                  <input
+                    type="text"
+                    placeholder="Search Watchlist"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="p-2 w-full border-none focus:outline-none rounded-full"
+                  />
+                  {searchQuery?.length > 0 && (
+                    <button
+                      onClick={onClear}
+                      type="submit"
+                      className="bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white h-7 w-7 flex items-center justify-center rounded-full"
+                    >
+                      <IoClose size={14} />
+                    </button>
+                  )}
+                </div>
+                {filteredWatchList?.length > 0 ? (
+                  <div className="rounded-md mb-4 border">
+                    {filteredWatchList?.map((movie, index) => (
+                      <MovieCard
+                        key={movie.id}
+                        movie={movie}
+                        index={index}
+                        openModal={openModal}
+                        totalLength={filteredWatchList?.length}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-black flex items-center w-full font-semibold justify-center h-[50vh]">
+                    The list is empty
+                  </div>
+                )}
+              </div>
+              <div className="w-full md:w-1/4 p-4">
+                <div className="rounded-l-sm border-gold-500 border-l-4">
+                  <span className="text-black text-2xl font-bold pl-2">
+                    More to explore
+                  </span>
+                </div>
+                <div className="h-[50vh] my-3 overflow-y-auto">
+                  {getUniqueMovies(
+                    watchListContent,
+                    fansFavoriteMovieList
+                  )?.map((item) => (
+                    <Link
+                      to={`/movie/${item?.id}`}
+                      className="flex items-center justify-center cursor-pointer mb-5"
+                    >
+                      <div className="w-1/2 h-32">
+                        <img
+                          className="h-full w-full object-cover rounded-md"
+                          src={item?.poster}
+                          alt="Something went wrong"
+                        />
+                      </div>
+                      <div className="text-black w-3/4 ml-2">
+                        <h2 className="text-base font-bold">{item.title}</h2>
+                        <p className="mt-1 text-black text-sm">
+                          {item.released}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="w-1/4  p-4 overflow-y-auto ">
-              <div className="rounded-l-sm border-gold-500 border-l-4 ">
-                <span className="text-black text-2xl font-bold pl-2 ">
-                  More to explore
-                </span>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
+      {modalOpen && (
+        <GenericModal
+          open={modalOpen}
+          onClose={closeModal}
+          message={modalDetail?.modalMessage}
+          type={modalDetail?.modalType}
+          onConfirm={deleteMovieFromWatchList}
+          isLoading={confirmBtnLoader}
+        />
+      )}
     </div>
   );
 };
 
-const MovieCard = ({ movie, index }) => {
+const MovieCard = ({ movie, index, onDelete, openModal, totalLength }) => {
   return (
-    <div className=" p-4 rounded-md bg-white shadow-lg">
-      <div className="flex items-start space-x-4">
+    <div className="relative p-4 rounded-md bg-white shadow-lg">
+      <div
+        className="absolute top-2 right-2 cursor-pointer"
+        onClick={() =>
+          openModal(
+            "confirmation",
+            "Are you sure you want to remove this title from the Watchlist?",
+            movie?.userWatchlistId
+          )
+        }
+      >
+        <DeleteIcon style={{ color: "red" }} />
+      </div>
+      <Link to={`/movie/${movie?.id}`} className="flex items-start space-x-4">
         <div className="flex-shrink-0">
           <img
-            src={movie.img || "https://via.placeholder.com/150"}
+            src={movie.poster || "https://via.placeholder.com/150"}
             alt={movie.title}
             className="w-32 h-32 rounded-md object-cover"
           />
@@ -126,40 +255,26 @@ const MovieCard = ({ movie, index }) => {
         <div>
           <h2 className="text-xl font-bold">{movie.title}</h2>
           <p className="text-gray-400 text-sm font-semibold">
-            {movie.createdDate}
+            {movie.yearOfRelease}
           </p>
-          {movie.noOfEpi && (
+          {movie.totalSeasons && (
             <p className="text-gray-400 text-sm font-semibold">
-              {movie.noOfEpi}
+              {movie.totalSeasons}
             </p>
           )}
           {movie.ratings && (
-            <p className="text-yellow-500 text-sm ">{`⭐ ${movie.ratings}`}</p>
+            <p className="text-yellow-500 text-sm ">{`⭐ ${
+              movie.rating || 0
+            }`}</p>
           )}
-          <p className="mt-2 text-sm font-semibold">{movie.desc}</p>
-          <div className="mt-2 flex items-center text-sm ">
-            <h3 className="font-bold text-black ">Creators:</h3>
-            <ul className=" ml-2 list-none gap-2 list-inside text-sm text-black flex">
-              {movie.creator.map((creator) => (
-                <li key={creator.id}>
-                  <a
-                    href={creator.url}
-                    className=" hover:underline text-blue-500  "
-                  >
-                    {creator.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="mt-2 text-sm font-semibold">{movie.plot}</p>
           <div className="mt-2 flex items-center text-sm ">
             <h3 className="font-bold text-black ">Stars:</h3>
             <ul className=" ml-2 list-none gap-2 list-inside text-sm text-black flex">
-              {movie.stars.map((star) => (
+              {movie.genres.map((star) => (
                 <li key={star.id}>
                   <a
-                    href={star.url}
-                    className=" hover:underline text-blue-500  "
+                    className="  text-black  "
                   >
                     {star.name}
                   </a>
@@ -168,10 +283,8 @@ const MovieCard = ({ movie, index }) => {
             </ul>
           </div>
         </div>
-      </div>
-      {dummyData?.length - 1 != index && (
-        <div className="border-b px-4  mt-4" />
-      )}
+      </Link>
+      {totalLength - 1 !== index && <div className="border-b px-4 mt-4" />}
     </div>
   );
 };

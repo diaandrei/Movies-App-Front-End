@@ -1,4 +1,5 @@
-import { getToken } from "/utils/LocalStorage";
+import { getToken } from "../utils/LocalStorage";
+
 
 const PrivateRoute = ({ children }) => {
   const isLoggedIn = getToken() !== "";

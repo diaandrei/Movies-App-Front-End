@@ -9,7 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsRated } from "../../redux/slice/ratingSlice.js";
-import { setSelectedMovies } from "../../redux/slice/toptenMoviesSlice.js";
+import { setSelectedMovies } from "../../redux/slice/topTenMoviesSlice.js";
 
 const Home = ({ isLoggedIn }) => {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
 export const ReactCarousel = ({ data, isLoading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -41,7 +41,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
                     <img
                       src={item?.poster}
                       alt={item?.title}
-                      className="w-full h-full object-fill transform transition-transform rounded-t-md group-hover:scale-110" 
+                      className="w-full h-full object-fill transform transition-transform rounded-t-md group-hover:scale-110"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">
                       <div className="text-center text-white">
@@ -72,7 +72,6 @@ export const ReactCarousel = ({ data, isLoading }) => {
                     >
                       <div className=" flex items-center justify-center cursor-pointer mb-5">
                         <div className="w-1/2 h-32">
-                          // eslint-disable-next-line jsx-a11y/alt-text
                           <img
                             className="h-full w-full object-cover rounded-md"
                             src={item?.poster}

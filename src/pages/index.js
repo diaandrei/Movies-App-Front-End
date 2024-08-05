@@ -5,7 +5,8 @@ import SignUp from "./sign-up/SignUp";
 import MovieDetail from "./movie-detail/MovieDetail";
 import CreateMovie from "./create-movie/CreateMovie";
 import MoviesList from "./movies-list/MoviesList";
-import SignIn from "./sign-in/SignIn"
+import SignIn from "./sign-in/SignIn";
+import NotFoundPage from "./not-found-page/NotFound";
 
 export {
   Home,
@@ -15,5 +16,6 @@ export {
   MovieDetail,
   CreateMovie,
   MoviesList,
-  SignIn
+  SignIn,
+  NotFoundPage
 };
