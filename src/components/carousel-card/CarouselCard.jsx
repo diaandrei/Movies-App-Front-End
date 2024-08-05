@@ -9,7 +9,7 @@ import { RatingModal } from "../rating-modal/RatingModal.jsx";
 import StarIcon from "@mui/icons-material/Star";
 import { RegisterModal } from "../register-modal/RegisterModal.jsx";
 import { useLazyGetApiMoviesAddMovieWatchListQuery } from "../../redux/slice/movies.ts";
-import { getToken } from "../utils/LocalStorage.js";
+import { getToken } from "../../utils/LocalStorage.js";
 import { toast } from "react-toastify";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { Formik, Form } from "formik";
-import { signinSchema } from "../../common/schemas/signinSchema.js";
+import { signinSchema } from "../../common/schemas.js";
 import { usePostApiAccountLoginMutation } from "../../redux/slice/movies.ts";
-import { setIsAdmin, setToken, setUserName } from "../utils/LocalStorage.js";
-import { InputField } from "../input-field/index.js";
+import { setIsAdmin, setToken, setUserName } from "../../utils/LocalStorage.js";
+import { InputField } from "../input-field/InputField.jsx";
 import { GenericButton } from "../generic-button/GenericButton.jsx";
 import { path } from "../../common/routesNames.js";
 import { toast } from "react-toastify";

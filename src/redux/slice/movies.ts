@@ -1,4 +1,5 @@
 import { emptySplitApi as api } from "./emptySplitApi";
+
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     postApiAccountRegister: build.mutation<
@@ -6,7 +7,7 @@ const injectedRtkApi = api.injectEndpoints({
       PostApiAccountRegisterApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/Account/register`,
+        url: `/api/movies/register`,
         method: "POST",
         body: queryArg.moviesContractsRequestsRegisterRequest,
       }),
@@ -16,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
       PostApiAccountLoginApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/Account/login`,
+        url: `/api/movies/login`,
         method: "POST",
         body: queryArg.moviesContractsRequestsLoginRequest,
       }),
@@ -193,6 +194,7 @@ const injectedRtkApi = api.injectEndpoints({
   }),
   overrideExisting: false,
 });
+
 export { injectedRtkApi as MovuesApi };
 export type PostApiAccountRegisterApiResponse =
   /** status 200 Success */ MoviesApplicationModelsResponseModel601SystemString20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798ERead;

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getToken } from "../../utils/localstorage";
+import { getToken } from "../../utils/LocalStorage";
 
 export const emptySplitApi = createApi({
   reducerPath: "emptySplitApi",
