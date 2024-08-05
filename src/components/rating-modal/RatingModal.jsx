@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Box, Typography } from "@mui/material";
-import { GenericButton } from "../generic-button/GenericButton.jsx";
+import { HoverRating } from "../hover-rating/HoverRating";
+import { GenericButton } from "../generic-button/GenericButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useLazyGetApiMoviesCreateRatingsQuery } from "../../redux/slice/movies.ts";
 import { toast } from "react-toastify";
@@ -89,6 +90,7 @@ export const RatingModal = ({
           <Typography id="rating-modal-description" sx={{ my: 1 }}>
             Please provide your rating.
           </Typography>
+          <HoverRating setValue={setValue} value={value} />
           <div className="flex justify-between items-center gap-2">
             <GenericButton
               onPress={handleClose}
