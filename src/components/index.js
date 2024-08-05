@@ -1,7 +1,15 @@
 export { SearchBar } from "./search-bar/SearchBar";
 export { ReactCarousel } from "./carousel/Carousel";
 export { CarouselCard } from "./carousel-card/CarouselCard";
-export { FeaturedToday } from "./feature-today/FeaturedToday";
+export { FeaturedToday } from "./featured-today/FeaturedToday";
 export { InputField } from "./input-field/InputField";
 export { Calendar } from "./calendar/Calendar";
 export { YearPicker } from "./year-picker/YearPicker";
+export { RegisterModal } from "./register-modal/RegisterModal";
+export { SignInForm } from "./sign-in-form/SignInForm";
+export { GenericButton } from "./generic-button/GenericButton";
+export { RatingModal } from "./rating-modal/RatingModal";
+export { HoverRating } from "./hover-rating/HoverRating";
+export { HelmetTitle } from "./helmet-title/HelmetTitle";
+export { GenericModal } from "./modal/GenericModal";
+export { MovieSelectionPopup } from "./top-ten-modal/TopTenModal";
