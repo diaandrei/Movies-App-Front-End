@@ -19,7 +19,7 @@ const NotFoundPage = ({ isLoggedIn }) => {
         {routeExists
           ? isLoggedIn
             ? `To Access this path you need to log out`
-            : `401 - You Cannot Access Path "${location.pathname}" without login`
+            : `401 - You Cannot Access Path "${location.pathname}" without logging in`
           : "404 - Page Not Found"}
       </h1>
       <p className="text-lg mb-6 text-center">
