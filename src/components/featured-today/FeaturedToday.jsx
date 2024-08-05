@@ -12,7 +12,7 @@ export const FeaturedToday = ({ data }) => {
               <div className="relative group">
                 <img
                   src={item?.img}
-                  alt="Image"
+                  alt="Something went wrong"
                   className="h-48 object-cover w-48 transform transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
