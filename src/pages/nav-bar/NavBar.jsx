@@ -404,7 +404,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
                   } shadow p-1 rounded-md text-white flex`}
                   onClick={handleOpen}
                 >
-                  Add Top Ten Movies
+                  Add Top Ten Titles
                 </button>
               </>
             )}
@@ -416,7 +416,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
                     pathname == path.createMovie && "bg-gray-600"
                   } shadow p-1 rounded-md text-white flex`}
                 >
-                  {"Advanced Search"}
+                  {"Create"}
                 </a>
                 <button
                   onClick={() => {
@@ -496,7 +496,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
                 href={"/create-movie"}
                 className="block px-4 py-2 hover:text-gray-300 text-white"
               >
-                Advanced Search
+                Create Title
               </a>
               <a
                 href="/movies-list"
