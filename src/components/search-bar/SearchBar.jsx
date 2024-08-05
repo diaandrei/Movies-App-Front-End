@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { CircularProgress } from "@mui/material";
 
-export const SearchBar = ({ value, onChange, onClear }) => {
-  const [query, setQuery] = useState("");
-
+export const SearchBar = ({ value, onChange, onClear, isLoading }) => {
   const handleSearch = (e) => {
     e.preventDefault();
   };
@@ -15,12 +14,15 @@ export const SearchBar = ({ value, onChange, onClear }) => {
     >
       <input
         type="text"
-        placeholder="Search for titles..."
+        placeholder="Search for a title..."
         className="appearance-none  bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
         value={value}
         onChange={onChange}
       />
-      {value?.length > 0 && (
+
+      {isLoading ? (
+        <CircularProgress size={20} thickness={6} sx={{ color: "white" }} />
+      ) : value?.length > 0 ? (
         <button
           onClick={onClear}
           type="submit"
@@ -28,7 +30,7 @@ export const SearchBar = ({ value, onChange, onClear }) => {
         >
           <IoClose size={14} />
         </button>
-      )}
+      ) : null}
     </form>
   );
 };
