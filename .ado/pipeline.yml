@@ -68,18 +68,10 @@ stages:
             displayName: "Build"
             continueOnError: false
 
-          - script: |
-              npm install node-zip
-            displayName: "Install Zip Utility"
-
-          - script: |
-              node -e "const fs = require('fs'); const path = require('path'); const Zip = require('node-zip'); const zip = new Zip(); const buildPath = path.join(__dirname, 'build'); const outputPath = path.join(__dirname, 'build.zip'); const addFiles = (dir, zipFolder) => { fs.readdirSync(dir).forEach(file => { const filePath = path.join(dir, file); const stats = fs.statSync(filePath); if (stats.isDirectory()) { const folder = zipFolder.folder(file); addFiles(filePath, folder); } else { zipFolder.file(file, fs.readFileSync(filePath)); } }); }; addFiles(buildPath, zip.folder('build')); fs.writeFileSync(outputPath, zip.generate({base64: false, compression: 'DEFLATE'}), 'binary');"
-            displayName: "Create ZIP package"
-
           - task: PublishPipelineArtifact@1
             displayName: "Publish Artifact"
             inputs:
-              targetPath: "$(System.DefaultWorkingDirectory)/build.zip"
+              targetPath: "$(Pipeline.Workspace)/build"
               artifactName: "drop"
               publishLocation: "Pipeline"
 
@@ -118,4 +110,4 @@ stages:
                     azureSubscription: "Visual Studio Enterprise Subscription(e5855b08-7ae6-492b-b26a-0729c22fa918)"
                     appType: "webApp"
                     appName: "moviesFrontEnd"
-                    package: "$(Pipeline.Workspace)/drop/build.zip"
+                    package: "$(Pipeline.Workspace)/drop/**"
