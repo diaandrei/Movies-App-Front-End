@@ -35,7 +35,7 @@ stages:
           name: moviesagent
           demands:
             - Agent.Name -equals MoviesPipelineAgent
-        timeoutInMinutes: 5
+        timeoutInMinutes: 30 
 
         steps:
           - task: NodeTool@0
@@ -55,13 +55,13 @@ stages:
               path: $(Pipeline.Workspace)/.npm
 
           - script: |
-              export NODE_OPTIONS=--max_old_space_size=8192
+              export NODE_OPTIONS=--max_old_space_size=2048
               npm ci --legacy-peer-deps
             displayName: "Install Dependencies"
             continueOnError: false
 
           - script: |
-              export NODE_OPTIONS=--max_old_space_size=8192
+              export NODE_OPTIONS=--max_old_space_size=2048
               INLINE_RUNTIME_CHUNK=false
               GENERATE_SOURCEMAP=false
               npm run build
