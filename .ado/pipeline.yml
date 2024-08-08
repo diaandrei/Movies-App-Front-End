@@ -68,8 +68,13 @@ stages:
             displayName: "Build"
             continueOnError: false
 
-          - script: |
-              ls -al $(Pipeline.Workspace)/build
+          - script: pwd
+            displayName: "Print Working Directory"
+
+          - script: ls -al $(Pipeline.Workspace)
+            displayName: "List Workspace Directory"
+
+          - script: ls -al $(Pipeline.Workspace)/build
             displayName: "List Build Directory"
             continueOnError: false
 
