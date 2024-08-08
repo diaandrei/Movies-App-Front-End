@@ -25,7 +25,7 @@ resources:
   repositories:
     - repository: self
       type: github
-      name: diaandrei/Movies-App-Front-End
+      name: Movies-App-Front-End
       ref: main
 
 stages:
