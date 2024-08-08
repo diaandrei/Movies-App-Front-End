@@ -68,6 +68,13 @@ stages:
             displayName: "Build"
             continueOnError: false
 
+          - script: |
+              echo "Current Directory: $(System.DefaultWorkingDirectory)"
+              ls -al $(System.DefaultWorkingDirectory)
+              ls -al $(System.DefaultWorkingDirectory)/s
+              ls -al $(System.DefaultWorkingDirectory)/s/build
+            displayName: "List Directory Structure"
+
           - task: PublishPipelineArtifact@1
             displayName: "Publish Artifact"
             inputs:
