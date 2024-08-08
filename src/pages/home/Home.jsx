@@ -140,6 +140,7 @@ const Home = ({ isLoggedIn }) => {
     return ids;
   }
   return (
+    <h1>Testing the pipeline header </h1>
     <div className="bg-black min-h-screen w-full ">
       <div className="max-w-7xl mx-auto p-5">
         <ReactCarousel data={moviesList} isLoading={isLoading} />
