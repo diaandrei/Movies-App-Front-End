@@ -105,6 +105,11 @@ stages:
                 - download: current
                   artifact: "drop"
 
+                - script: |
+                    echo "Listing contents of the drop directory"
+                    ls -al $(Pipeline.Workspace)/drop
+                  displayName: "List drop directory contents"
+
                 - task: AzureWebApp@1
                   inputs:
                     azureSubscription: "Visual Studio Enterprise Subscription(e5855b08-7ae6-492b-b26a-0729c22fa918)"
