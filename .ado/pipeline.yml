@@ -30,7 +30,7 @@ resources:
 
 stages:
   - stage: Build
-    displayName: Build React Application
+    displayName: Build
     jobs:
       - job: Build
         pool:
