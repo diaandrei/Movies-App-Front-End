@@ -68,20 +68,10 @@ stages:
             displayName: "Build"
             continueOnError: false
 
-          - script: pwd
-            displayName: "Print Working Directory"
-
-          - script: ls -al $(Pipeline.Workspace)
-            displayName: "List Workspace Directory"
-
-          - script: ls -al $(Pipeline.Workspace)/build
-            displayName: "List Build Directory"
-            continueOnError: false
-
           - task: PublishPipelineArtifact@1
             displayName: "Publish Artifact"
             inputs:
-              targetPath: "$(Pipeline.Workspace)/build"
+              targetPath: "$(System.DefaultWorkingDirectory)/build"
               artifactName: "drop"
               publishLocation: "Pipeline"
 
