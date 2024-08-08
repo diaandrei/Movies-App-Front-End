@@ -35,6 +35,7 @@ stages:
           name: moviesagent
           demands:
             - Agent.Name -equals MoviesPipelineAgent
+        timeoutInMinutes: 60 # Increase this value as needed
 
         steps:
           - task: NodeTool@0
@@ -61,6 +62,110 @@ stages:
 
           - script: |
               export NODE_OPTIONS=--max_old_space_size=8192
+              INLINE_RUNTIME_CHUNK=false
+              GENERATE_SOURCEMAP=false
+              npm run build
+            displayName: "Build"
+            continueOnError: false
+
+          - task: PublishPipelineArtifact@1
+            displayName: "Publish Artifact"
+            inputs:
+              targetPath: "$(Pipeline.Workspace)/build"
+              artifactName: "drop"
+              publishLocation: "Pipeline"
+
+  - stage: Deploy
+    displayName: Production
+    dependsOn: Build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: Deploy
+        environment: "Production" 
+        pool:
+          name: moviesagent
+          demands:
+            - Agent.Name -equals MoviesPipelineAgent
+
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: "drop"
+
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: "Visual Studio Enterprise Subscription(e5855b08-7ae6-492b-b26a-0729c22fa918)"
+                    appType: "webApp"
+                    appName: "moviesFrontEnd"
+                    package: "$(Pipeline.Workspace)/drop/**/*.zip"
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/**
+      - public/**
+      - package.json
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/**
+      - public/**
+      - package.json
+      - tailwind.config.js
+
+resources:
+  repositories:
+    - repository: self
+      type: github
+      name: diaandrei/Movies-App-Front-End
+      ref: main
+
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        pool:
+          name: moviesagent
+          demands:
+            - Agent.Name -equals MoviesPipelineAgent
+        timeoutInMinutes: 5
+
+        steps:
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: "20.x"
+
+          - script: mkdir -p $(Pipeline.Workspace)/.npm
+            displayName: "Ensure .npm directory exists"
+
+          - task: Cache@2
+            displayName: "Cache npm"
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)"
+              path: $(Pipeline.Workspace)/.npm
+
+          - script: |
+              export NODE_OPTIONS=--max_old_space_size=8192
+              npm ci --legacy-peer-deps
+            displayName: "Install Dependencies"
+            continueOnError: false
+
+          - script: |
+              export NODE_OPTIONS=--max_old_space_size=8192
+              INLINE_RUNTIME_CHUNK=false
+              GENERATE_SOURCEMAP=false
               npm run build
             displayName: "Build"
             continueOnError: false
