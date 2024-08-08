@@ -7,7 +7,6 @@ trigger:
       - src/**
       - public/**
       - package.json
-      - tailwind.config.js
 
 pr:
   branches:
@@ -19,13 +18,12 @@ pr:
       - public/**
       - package.json
       - tailwind.config.js
-      - postcss.config.js
 
 resources:
   repositories:
     - repository: self
       type: github
-      name: Movies-App-Front-End
+      name: diaandrei/Movies-App-Front-End
       ref: main
 
 stages:
@@ -56,13 +54,13 @@ stages:
               path: $(Pipeline.Workspace)/.npm
 
           - script: |
-              export NODE_OPTIONS=--max_old_space_size=4096
+              export NODE_OPTIONS=--max_old_space_size=8192
               npm ci --legacy-peer-deps
             displayName: "Install Dependencies"
             continueOnError: false
 
           - script: |
-              export NODE_OPTIONS=--max_old_space_size=4096
+              export NODE_OPTIONS=--max_old_space_size=8192
               npm run build
             displayName: "Build"
             continueOnError: false
