@@ -8,7 +8,6 @@ trigger:
       - public/**
       - package.json
       - tailwind.config.js
-      - postcss.config.js
 
 pr:
   branches:
@@ -31,7 +30,7 @@ resources:
 
 stages:
   - stage: Build
-    displayName: Build React Application
+    displayName: Build
     jobs:
       - job: Build
         pool:
@@ -61,7 +60,7 @@ stages:
             continueOnError: false
 
           - script: npm run build
-            displayName: "Build"
+            displayName: "Build Application"
             continueOnError: false
 
           # Uncomment when tests are added
