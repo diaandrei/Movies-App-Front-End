@@ -35,7 +35,7 @@ stages:
           name: moviesagent
           demands:
             - Agent.Name -equals MoviesPipelineAgent
-        timeoutInMinutes: 30
+        timeoutInMinutes: 30 
 
         steps:
           - task: NodeTool@0
@@ -66,6 +66,11 @@ stages:
               GENERATE_SOURCEMAP=false
               npm run build
             displayName: "Build"
+            continueOnError: false
+
+          - script: |
+              ls -al $(Pipeline.Workspace)/build
+            displayName: "List Build Directory"
             continueOnError: false
 
           - task: PublishPipelineArtifact@1
