@@ -30,7 +30,7 @@ resources:
 
 stages:
   - stage: Build
-    displayName: Build
+    displayName: Build React Application
     jobs:
       - job: Build
         pool:
@@ -55,12 +55,16 @@ stages:
                 npm | "$(Agent.OS)"
               path: $(Pipeline.Workspace)/.npm
 
-          - script: npm ci --legacy-peer-deps
+          - script: |
+              export NODE_OPTIONS=--max_old_space_size=4096
+              npm ci --legacy-peer-deps
             displayName: "Install Dependencies"
             continueOnError: false
 
-          - script: npm run build
-            displayName: "Build Application"
+          - script: |
+              export NODE_OPTIONS=--max_old_space_size=4096
+              npm run build
+            displayName: "Build"
             continueOnError: false
 
           # Uncomment when tests are added
