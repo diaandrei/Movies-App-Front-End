@@ -79,10 +79,9 @@ stages:
               artifactName: "drop"
               publishLocation: "Pipeline"
 
-  - stage: Deploy
-    displayName: Production
+  - stage: Approval
+    displayName: "Approval Before Deploy"
     dependsOn: Build
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs:
       - job: ManualApproval
         pool: server
@@ -91,9 +90,9 @@ stages:
             inputs:
               instructions: 'Please approve or reject the deployment.'
 
-  - stage: Deploy
-    displayName: Deploy to Production
-    dependsOn: ManualApproval
+  - stage: DeployToProduction
+    displayName: "Production"
+    dependsOn: Approval
     condition: succeeded()
     jobs:
       - deployment: Deploy
