@@ -71,7 +71,7 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: "Publish Artifact"
             inputs:
-              targetPath: "$(Pipeline.Workspace)/build"
+              targetPath: "$(System.DefaultWorkingDirectory)/s/build"
               artifactName: "drop"
               publishLocation: "Pipeline"
 
