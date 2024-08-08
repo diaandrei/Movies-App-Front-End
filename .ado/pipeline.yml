@@ -35,7 +35,7 @@ stages:
           name: moviesagent
           demands:
             - Agent.Name -equals MoviesPipelineAgent
-        timeoutInMinutes: 60 # Increase this value as needed
+        timeoutInMinutes: 5
 
         steps:
           - task: NodeTool@0
