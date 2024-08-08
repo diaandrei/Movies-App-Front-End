@@ -56,12 +56,12 @@ stages:
                 npm | "$(Agent.OS)"
               path: $(Pipeline.Workspace)/.npm
 
-          - script: npm ci
+          - script: npm ci --legacy-peer-deps
             displayName: "Install Dependencies"
             continueOnError: false
 
           - script: npm run build
-            displayName: "Build Application"
+            displayName: "Build"
             continueOnError: false
 
           # Uncomment when tests are added
