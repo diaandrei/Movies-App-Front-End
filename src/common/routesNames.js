@@ -13,18 +13,16 @@ export const path = {
   watchList: "/watch-list",
   signUp: "/sign-up",
   signIn: "/sign-in",
-  movieDetail: "/movie/:id",
-  createMovie: "/create-movie",
-  moviesList: "/movies-list",
+  movieDetail: "/title/:id",
+  createMovie: "/create-title",
 };
 export const routes = {
   home: `/`,
   watchList: "/watch-list",
   signUp: "/sign-up",
   signIn: "/sign-in",
-  movieDetail: "/movie/:id",
-  createMovie: "/create-movie",
-  moviesList: "/movies-list",
+  movieDetail: "/title/:id",
+  createMovie: "/create-title",
 };
 
 export const titles = {
@@ -32,9 +30,8 @@ export const titles = {
   watchList: "Watchlist",
   signUp: "Sign Up",
   signIn: "Sign In",
-  movieDetail: "Movie Detail",
-  createMovie: "Create Movie",
-  moviesList: "Movie List",
+  movieDetail: "Title Detail",
+  createMovie: "Create Title",
 };
 
 export const privatePageRoutes = {
@@ -61,13 +58,7 @@ export const privatePageRoutes = {
     path: path.createMovie,
     title: titles.createMovie,
     component: CreateMovie,
-  },
-  [routes.moviesList]: {
-    name: routes.moviesList,
-    path: path.moviesList,
-    title: titles.moviesList,
-    component: MoviesList,
-  },
+  }
 };
 
 export const publicPageRoutes = {

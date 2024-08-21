@@ -73,7 +73,7 @@ export const CarouselCard = ({
           additionalTransfrom={0}
           arrows
           autoPlay
-          autoPlaySpeed={autoPlaySpeed || 2000}
+          autoPlaySpeed={autoPlaySpeed || 5000}
           centerMode={false}
           className="  py-7 "
           draggable
@@ -129,7 +129,7 @@ export const CarouselCard = ({
             return (
               <div className="flex flex-col   mx-3 justify-between pb-4 bg-cardBg-400  rounded-lg shadow-md">
                 <Link
-                  to={`/movie/${item?.id}`}
+                  to={`/title/${item?.id}`}
                   className="relative group overflow-hidden cursor-pointer"
                 >
                   <img
@@ -161,6 +161,7 @@ export const CarouselCard = ({
                         movieId={item?.id}
                         isLoggedIn={isLoggedIn}
                         openModal={openModal}
+                        ratingId={item?.movieRatings}
                       />
                     </div>
                   </div>
@@ -171,8 +172,7 @@ export const CarouselCard = ({
                     onClick={() => {
                       addToWatchlistHandler(item?.id);
                     }}
-                    className=" disabled:bg-gray-900 w-full flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg "
-                  >
+                    className="disabled:bg-gray-900 w-full flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg">
                     {btnLoader == item?.id ? (
                       <CircularProgress
                         size={20}
@@ -184,7 +184,6 @@ export const CarouselCard = ({
                     ) : (
                       <FiPlus size={20} className="" />
                     )}
-
                     <div>{"Watchlist"}</div>
                   </button>
                 </div>

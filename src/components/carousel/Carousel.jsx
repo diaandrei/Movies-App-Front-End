@@ -3,6 +3,8 @@ import { CircularProgress } from "@mui/material";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { Link } from "react-router-dom";
+import "./style.css";
 
 export const ReactCarousel = ({ data, isLoading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,6 +28,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
               infiniteLoop
               showArrows={true}
               autoPlay
+              interval={5000}
               showStatus={false}
               showThumbs={false}
               onChange={(e) => {
@@ -33,10 +36,11 @@ export const ReactCarousel = ({ data, isLoading }) => {
               }}
             >
               {data?.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col  justify-between  rounded-lg shadow-md"
-                >
+                <Link
+                to={`/title/${item?.id}`}
+                key={index}
+                className="flex flex-col  justify-between  rounded-lg shadow-md cursor-pointer"
+              >
                   <div className="relative group overflow-hidden  lg:h-[700px] h-[300px] rounded-lg">
                     <img
                       src={item?.poster}
@@ -50,13 +54,13 @@ export const ReactCarousel = ({ data, isLoading }) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </Carousel>
           </div>
           <div className="lg:w-1/5 ml-4 ">
             <span className="font-bold text-lg text-gold-500">Up Next</span>
-            <div className="bg-[#1f1f1f] overflow-y-scroll lg:h-[36rem] mt-2 p-2 rounded-md">
+            <div className="bg-[#1f1f1f] overflow-y-scroll hide-scrollbar lg:h-[662px] mt-2 p-2 rounded-md">
               <TransitionGroup>
                 {getRequiredData()?.map((item) => {
                   return (
@@ -70,7 +74,10 @@ export const ReactCarousel = ({ data, isLoading }) => {
                         exitActive: "",
                       }}
                     >
-                      <div className=" flex items-center justify-center cursor-pointer mb-5">
+                      <Link
+                        to={`/title/${item?.id}`}
+                        className=" flex items-center justify-center cursor-pointer mb-5 cursor-pointer"
+                      >
                         <div className="w-1/2 h-32">
                           <img
                             className="h-full w-full object-cover rounded-md"
@@ -81,7 +88,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
                           <h2 className="text-base font-bold">{item.title}</h2>
                           <p className="mt-1 text-sm">{item.released}</p>
                         </div>
-                      </div>
+                      </Link>
                     </CSSTransition>
                   );
                 })}

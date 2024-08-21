@@ -76,7 +76,7 @@ const injectedRtkApi = api.injectEndpoints({
       GetApiMoviesFavoriteMoviesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/movies/favorites`,
+        url: `/api/movies/favourites`,
         params: {
           Title: queryArg.title,
           Year: queryArg.year,
@@ -172,6 +172,7 @@ const injectedRtkApi = api.injectEndpoints({
           ratingId: queryArg.ratingId,
           movieId: queryArg.movieId,
           rating: queryArg.rating,
+          userId: queryArg.userId,
         },
       }),
     }),
@@ -288,6 +289,7 @@ export type GetApiMoviesCreateRatingsApiArg = {
   ratingId?: string;
   movieId?: string;
   rating?: number;
+  userId?: string;
 };
 export type DeleteApiMoviesDeleteRatingsApiResponse =
   /** status 200 Success */ MoviesApplicationModelsResponseModel601SystemString20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798ERead;
@@ -1324,8 +1326,6 @@ export type MoviesApplicationModelsResponseModel601SystemCollectionsGenericIEnum
 export const {
   usePostApiAccountRegisterMutation,
   usePostApiAccountLoginMutation,
-  useGetApiAccountForgotPasswordQuery,
-  usePostApiAccountResetPasswordMutation,
   usePostApiMoviesCreateMovieMutation,
   useGetApiMoviesGetByIdQuery,
   useGetApiMoviesMoviesListQuery,
@@ -1343,7 +1343,6 @@ export const {
   useGetApiMoviesCreateRatingsQuery,
   useDeleteApiMoviesDeleteRatingsMutation,
   useGetApiMoviesMeQuery,
-  useLazyGetApiAccountForgotPasswordQuery,
   useLazyGetApiMoviesAddMovieWatchListQuery,
   useLazyGetApiMoviesAdminMoviesListQuery,
   useLazyGetApiMoviesAllMovieWatchListQuery,

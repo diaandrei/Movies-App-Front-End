@@ -411,7 +411,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
             {isLoggedIn ? (
               <>
                 <a
-                  href={"/create-movie"}
+                  href={"/create-title"}
                   className={`hover:text-gray-300 ${
                     pathname == path.createMovie && "bg-gray-600"
                   } shadow p-1 rounded-md text-white flex`}
@@ -493,7 +493,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
           {isLoggedIn && isAdmin && (
             <>
               <a
-                href={"/create-movie"}
+                href={"/create-title"}
                 className="block px-4 py-2 hover:text-gray-300 text-white"
               >
                 Create Title
@@ -548,7 +548,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
                 <button
                   onClick={() => {
                     setQuery("");
-                    navigate(`/movie/${item?.id}`);
+                    navigate(`/title/${item?.id}`);
                   }}
                   className=" flex  w-full bg-cardBg-400 hover:bg-[#313131] mb-3 text-white gap-3 "
                 >

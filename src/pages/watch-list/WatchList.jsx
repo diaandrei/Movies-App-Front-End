@@ -191,7 +191,7 @@ const WatchList = () => {
                     fansFavoriteMovieList
                   )?.map((item) => (
                     <Link
-                      to={`/movie/${item?.id}`}
+                      to={`/title/${item?.id}`}
                       className="flex items-center justify-center cursor-pointer mb-5"
                     >
                       <div className="w-1/2 h-32">
@@ -244,7 +244,7 @@ const MovieCard = ({ movie, index, onDelete, openModal, totalLength }) => {
       >
         <DeleteIcon style={{ color: "red" }} />
       </div>
-      <Link to={`/movie/${movie?.id}`} className="flex items-start space-x-4">
+      <Link to={`/title/${movie?.id}`} className="flex items-start space-x-4">
         <div className="flex-shrink-0">
           <img
             src={movie.poster || "https://via.placeholder.com/150"}

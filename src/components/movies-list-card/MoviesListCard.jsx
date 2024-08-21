@@ -85,7 +85,7 @@ export const MovieListCard = ({ movies, onDelete, onEdit }) => {
               ) : (
                 <div className="flex flex-col md:flex-row items-start  w-full">
                   <Link
-                    to={`/movie/${movie?.id}`}
+                    to={`/title/${movie?.id}`}
                     className="flex flex-col md:flex-row items-start md:items-center w-full"
                   >
                     <img
