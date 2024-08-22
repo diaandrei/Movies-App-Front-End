@@ -15,7 +15,7 @@ export const FeaturedToday = ({ data }) => {
                   alt="Something went wrong"
                   className="h-48 object-cover w-48 transform transition-transform duration-1000 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-1000">
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-5000">
                   <p className="text-white text-lg">Hovered Text</p>
                 </div>
               </div>

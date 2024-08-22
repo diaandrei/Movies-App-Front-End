@@ -21,6 +21,7 @@ export function InputField({
   bgColor,
   radius,
   height,
+  labelColor,
   ...props
 }) {
   const [isEyeOpen, setIsEyeOpen] = useState(false);
