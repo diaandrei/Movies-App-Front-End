@@ -14,3 +14,5 @@ export { HelmetTitle } from "./helmet-title/HelmetTitle";
 export { GenericModal } from "./modal/GenericModal";
 export { MovieSelectionPopup } from "./top-ten-modal/TopTenModal";
 export { MovieListCard } from "./movies-list-card/MoviesListCard";
+export { GenericUpdateModal } from "./generic-update-modal/GenericUpdateModal";
+export { TextAreaField } from "./textarea/Textarea";

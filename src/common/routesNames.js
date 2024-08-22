@@ -4,7 +4,6 @@ import {
   WatchList,
   MovieDetail,
   CreateMovie,
-  MoviesList,
   SignIn,
 } from "../pages";
 
