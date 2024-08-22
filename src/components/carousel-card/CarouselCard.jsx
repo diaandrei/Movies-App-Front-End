@@ -152,7 +152,9 @@ export const CarouselCard = ({
                     <div className="flex text-yellow-400 items-center text-sm">
                       <strong className=" text-white">Overall Rating: </strong>
                       <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
-                      <p className="text-white">{item?.userRating || 0}</p>
+                      <p className="text-white">
+                        {item?.userRating?.toFixed(1) || 0}
+                      </p>
                     </div>
                     <div>
                       <RatingModal
@@ -172,7 +174,8 @@ export const CarouselCard = ({
                     onClick={() => {
                       addToWatchlistHandler(item?.id);
                     }}
-                    className="disabled:bg-gray-900 w-full flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg">
+                    className=" disabled:bg-gray-900 w-full flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg "
+                  >
                     {btnLoader == item?.id ? (
                       <CircularProgress
                         size={20}
@@ -184,6 +187,7 @@ export const CarouselCard = ({
                     ) : (
                       <FiPlus size={20} className="" />
                     )}
+
                     <div>{"Watchlist"}</div>
                   </button>
                 </div>

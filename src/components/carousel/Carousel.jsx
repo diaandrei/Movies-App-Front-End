@@ -37,11 +37,11 @@ export const ReactCarousel = ({ data, isLoading }) => {
             >
               {data?.map((item, index) => (
                 <Link
-                to={`/title/${item?.id}`}
-                key={index}
-                className="flex flex-col  justify-between  rounded-lg shadow-md cursor-pointer"
-              >
-                  <div className="relative group overflow-hidden  lg:h-[700px] h-[300px] rounded-lg">
+                  to={`/title/${item?.id}`}
+                  key={index}
+                  className="flex flex-col  justify-between  rounded-lg shadow-md cursor-pointer"
+                >
+                  <div className="relative group overflow-hidden  lg:h-[700px] h-[300px] rounded-lg bg-red-400">
                     <img
                       src={item?.poster}
                       alt={item?.title}

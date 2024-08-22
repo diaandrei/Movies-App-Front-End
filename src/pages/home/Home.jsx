@@ -14,17 +14,18 @@ import { setSelectedMovies } from "../../redux/slice/topTenMoviesSlice.js";
 const Home = ({ isLoggedIn }) => {
   const dispatch = useDispatch();
   const checkRating = useSelector((state) => state.ratingReducer.isRated);
-  const [getMovieListApi, { isLoading }] = useLazyGetApiMoviesMoviesListQuery();
-  const [getFansFavouriteApi, { isLoading: fansFavoriteLoader }] =
-    useLazyGetApiMoviesFavoriteMoviesListQuery();
-  const [getTopMoviesList, { isLoading: topMoviesLoader }] =
-    useLazyGetApiMoviesTopMoviesListQuery();
-  const [getMostRecentMovies, { isLoading: recentMoviesLoader }] =
-    useLazyGetApiMoviesMostRecentMoviesListQuery();
+  const [getMovieListApi] = useLazyGetApiMoviesMoviesListQuery();
+  const [getFansFavouriteApi] = useLazyGetApiMoviesFavoriteMoviesListQuery();
+  const [getTopMoviesList] = useLazyGetApiMoviesTopMoviesListQuery();
+  const [getMostRecentMovies] = useLazyGetApiMoviesMostRecentMoviesListQuery();
   const [moviesList, setMoviesList] = useState([]);
   const [topMoviesList, setTopMoviesList] = useState([]);
   const [mostRecentMoviesList, setMostRecentMoviesList] = useState([]);
   const [fansFavoriteMovieList, setFansFavoriteMovieList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [fansFavoriteLoader, setFansFavoriteLoader] = useState(true);
+  const [topMoviesLoader, setTopMoviesLoader] = useState(true);
+  const [recentMoviesLoader, setRecentMoviesLoader] = useState(true);
 
   useEffect(() => {
     if (checkRating) {
@@ -58,10 +59,11 @@ const Home = ({ isLoggedIn }) => {
         if (items?.length > 0) {
           setFansFavoriteMovieList(items || []);
         }
-
         dispatch(setIsRated(false));
       }
+      setFansFavoriteLoader(false);
     } catch (error) {
+      setFansFavoriteLoader(false);
       toast.error(error?.message);
     }
   };
@@ -84,7 +86,10 @@ const Home = ({ isLoggedIn }) => {
         }
         dispatch(setIsRated(false));
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+
       toast.error(error?.message);
     }
   };
@@ -105,7 +110,9 @@ const Home = ({ isLoggedIn }) => {
         }
         dispatch(setIsRated(false));
       }
+      setTopMoviesLoader(false);
     } catch (error) {
+      setTopMoviesLoader(false);
       toast.error(error?.message);
     }
   };
@@ -125,7 +132,9 @@ const Home = ({ isLoggedIn }) => {
         }
         dispatch(setIsRated(false));
       }
+      setRecentMoviesLoader(false);
     } catch (error) {
+      setRecentMoviesLoader(false);
       toast.error(error?.message);
     }
   };
@@ -159,7 +168,7 @@ const Home = ({ isLoggedIn }) => {
         <CarouselCard
           data={fansFavoriteMovieList}
           isLoading={fansFavoriteLoader}
-          title={"Fan Favorites"}
+          title={"Fan Favourites"}
           onWatchListPress={fetchFansFavoriteList}
         />
       </div>
