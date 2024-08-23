@@ -15,20 +15,31 @@ export const RatingModal = ({
   isLoggedIn,
   movieId,
   movieRating,
+  ratingId,
 }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(movieRating[0]?.rating || 0);
   const [createRatingApi, { isLoading }] =
     useLazyGetApiMoviesCreateRatingsQuery();
 
   const addRatingHandler = async () => {
-    const response = await createRatingApi({
+    let payload = {
       rating: value,
       movieId: movieId,
-    });
+    };
+    const updatingPayload = {
+      rating: value,
+      movieId: movieId,
+      ratingId: movieRating[0]?.id,
+      userId: movieRating[0]?.userId,
+    };
+
+    const response = await createRatingApi(
+      movieRating?.length > 0 ? updatingPayload : payload
+    );
     const {
       data: { success, title },
     } = response;
@@ -44,10 +55,19 @@ export const RatingModal = ({
   return (
     <div>
       {movieRating?.length > 0 && isLoggedIn ? (
-        <div className=" text-yellow-400 flex items-center gap-1 ">
+        <button
+          onClick={() => {
+            if (isLoggedIn) {
+              handleOpen();
+            } else {
+              openModal();
+            }
+          }}
+          className=" text-yellow-400 flex items-center gap-1 "
+        >
           <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
           <p className="text-white">{movieRating[0]?.rating}</p>
-        </div>
+        </button>
       ) : (
         <button
           className=" cursor-pointer  hover:bg-darkBlue-700 shadow  px-2 text-white rounded-md overflow-hidden hover:scale-110"

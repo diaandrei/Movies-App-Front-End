@@ -80,8 +80,6 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
       openModal();
     }
   };
-
-
   const movies = [
     {
       id: "9117f422-70fb-44a5-b4b3-2dc2a64d4bdc",

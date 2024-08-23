@@ -126,9 +126,7 @@ const WatchList = () => {
                 Your Watchlist
               </span>
               <p className="text-[#BCBCBC] mt-3 text-sm font-semibold">
-                {
-                  "Track the titles you want to watch in your Watchlist."
-                }
+                {"Track the titles you want to watch in your Watchlist."}
               </p>
             </div>
           </div>
@@ -273,11 +271,7 @@ const MovieCard = ({ movie, index, onDelete, openModal, totalLength }) => {
             <ul className=" ml-2 list-none gap-2 list-inside text-sm text-black flex">
               {movie.genres.map((star) => (
                 <li key={star.id}>
-                  <a
-                    className="  text-black  "
-                  >
-                    {star.name}
-                  </a>
+                  <a className="  text-black  ">{star.name}</a>
                 </li>
               ))}
             </ul>
