@@ -12,11 +12,13 @@ import {
 import { emptySplitApi } from "./slice/emptySplitApi";
 import ratingSlice from "./slice/ratingSlice";
 import selectedMoviesSlice from "./slice/topTenMoviesSlice";
+import watchlistSlice from "./slice/watchlistSlice";
 
 export const store = configureStore({
   reducer: {
     ratingReducer: ratingSlice,
     topTenMoviesReducer: selectedMoviesSlice,
+    watchlistReducer: watchlistSlice,
     [emptySplitApi.reducerPath]: emptySplitApi.reducer,
   },
 
@@ -29,3 +31,4 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+

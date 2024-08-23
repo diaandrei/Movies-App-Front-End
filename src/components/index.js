@@ -16,3 +16,5 @@ export { MovieSelectionPopup } from "./top-ten-modal/TopTenModal";
 export { MovieListCard } from "./movies-list-card/MoviesListCard";
 export { GenericUpdateModal } from "./generic-update-modal/GenericUpdateModal";
 export { TextAreaField } from "./textarea/Textarea";
+export { WatchListItem } from "./watchlist-item/WatchlistItem";
+export { WatchListMovieCard } from "./watchlist-movie-card/WatchlistMovieCard";

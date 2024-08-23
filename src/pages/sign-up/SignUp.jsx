@@ -81,7 +81,7 @@ const SignUp = () => {
               <div className="circular-gradient p-10 mt-8 sm:mx-auto sm:w-full sm:max-w-md drop-shadow rounded-lg ">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md mb-4">
                   <h2 className=" text-3xl font-extrabold text-white">
-                    Create account
+                    Create Account
                   </h2>
                 </div>
                 <InputField

@@ -106,7 +106,7 @@ export const MovieSelectionPopup = ({ open, handleClose, movies }) => {
   return (
     <Dialog open={open} onClose={handleCancel} maxWidth="md" fullWidth>
       <DialogTitle className="text-2xl font-semibold">
-        {`Select Movies (${selectedMovieIds?.length}/10)`}
+        {`Select Titles (${selectedMovieIds?.length}/10)`}
       </DialogTitle>
       <DialogContent className="space-y-4">
         {isLoading ? (
@@ -148,7 +148,7 @@ export const MovieSelectionPopup = ({ open, handleClose, movies }) => {
       <div className=" mx-5 mt-2">
         {showValidation && (
           <Typography color="error">
-            Please select at least 10 movies.
+            Please select at least 10 titles.
           </Typography>
         )}
       </div>

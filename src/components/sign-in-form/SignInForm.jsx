@@ -22,13 +22,15 @@ export const SignInForm = ({}) => {
         email: values.email,
         password: values.password,
       };
+
       let result = await accountLoginApi({
         moviesContractsRequestsLoginRequest: payload,
       });
+
       const { success, content, title } = result?.data || {};
       if (result && success) {
         const { token, isAdmin, name } = content;
-        console.log("content", content);
+
         window.location.replace(path.home);
         setUserName(name);
         setToken(token);
