@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   useDeleteApiMoviesDeleteMovieWatchListMutation,
   useLazyGetApiMoviesAllMovieWatchListQuery,
+  useLazyGetApiMoviesMeQuery,
 } from "../../redux/slice/movies.ts";
 import { GenericModal } from "../../components/modal/GenericModal";
 import { WatchListItem } from "../../components/watchlist-item/WatchlistItem";
 import { CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
-import { getUserName } from "../../utils/LocalStorage.js";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setWatchlistActiveTab } from "../../redux/slice/watchlistSlice.js";
 
@@ -18,8 +17,6 @@ const WatchList = () => {
     (state) => state?.watchlistReducer?.watchlistActiveTab
   );
 
-  const [activeTab, setActiveTab] = useState(1);
-  const getName = getUserName();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalDetail, setModalDetail] = useState({
     modalType: "",
@@ -60,6 +57,7 @@ const WatchList = () => {
   };
 
   const [watchListApi] = useLazyGetApiMoviesAllMovieWatchListQuery();
+  const [ratedMoviesApi] = useLazyGetApiMoviesMeQuery();
   const [deleteWatchListMovieApi, { isLoading: confirmBtnLoader }] =
     useDeleteApiMoviesDeleteMovieWatchListMutation();
 
@@ -68,30 +66,38 @@ const WatchList = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchAllWatchList();
+    fetchAllMovies();
   }, []);
 
-  const fetchAllWatchList = async () => {
+  const fetchAllMovies = async () => {
     try {
       setIsLoading(true);
-      let response = await watchListApi();
+
+      const watchlistResponse = await watchListApi();
       const {
         data: {
-          success,
-          content: { items },
+          success: watchlistSuccess,
+          content: { items: watchlistItems },
         },
-      } = response;
-      if (response && success) {
-        const filterNonRatedMovies = items?.filter(
-          (item) => item?.movieRatings?.length == 0
-        );
-        setWatchListContent(filterNonRatedMovies || []);
-      }
-      const filterRatedMovies = items?.filter(
-        (item) => item?.movieRatings?.length > 0
-      );
+      } = watchlistResponse;
 
-      setRatedContent(filterRatedMovies || []);
+      if (watchlistResponse && watchlistSuccess) {
+        setWatchListContent(watchlistItems || []);
+      }
+
+      const ratedResponse = await ratedMoviesApi();
+      const {
+        data: { success: ratedSuccess, content: ratedItems },
+      } = ratedResponse;
+
+      if (ratedResponse && ratedSuccess) {
+        const moviesWithRatings = ratedItems.map((item) => ({
+          ...item.movie,
+          rating: item.rating,
+        }));
+        setRatedContent(moviesWithRatings);
+      }
+
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -110,7 +116,7 @@ const WatchList = () => {
       toast.error(title);
     }
     setModalOpen(false);
-    fetchAllWatchList();
+    fetchAllMovies();
   };
 
   const filteredLeftItems = watchListContent.filter((movie) =>
@@ -122,10 +128,10 @@ const WatchList = () => {
   );
 
   return (
-    <div className="bg-white   ">
-      <div className="bg-[#1f1f1f] h-48  ">
-        <div className="max-w-7xl mx-auto flex items-center h-full  ">
-          <div className=" lg:ml-0  ml-5">
+    <div className="bg-white">
+      <div className="bg-[#1f1f1f] h-48">
+        <div className="max-w-7xl mx-auto flex items-center h-full">
+          <div className="lg:ml-0 ml-5">
             <span className="text-white text-2xl font-bold">
               Your WatchList
             </span>
@@ -137,18 +143,18 @@ const WatchList = () => {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto   ">
+      <div className="max-w-7xl mx-auto">
         {isLoading ? (
-          <div className=" mt-24 flex items-center justify-center  ">
+          <div className="mt-24 flex items-center justify-center">
             <CircularProgress size={30} thickness={5} sx={{ color: "black" }} />
           </div>
         ) : (
           <WatchListItem
             searchQuery={
-              watchlistActiveTab == 1 ? leftSearchQuery : rightSearchQuery
+              watchlistActiveTab === 1 ? leftSearchQuery : rightSearchQuery
             }
             handleSearchChange={
-              watchlistActiveTab == 1
+              watchlistActiveTab === 1
                 ? handleLeftSearchChange
                 : handleRightSearchChange
             }
@@ -158,7 +164,7 @@ const WatchList = () => {
             leftTitle={"Watchlist"}
             rightTitle={"Your Rated Titles"}
             onClear={
-              watchlistActiveTab == 1 ? handleLeftClear : handleRightClear
+              watchlistActiveTab === 1 ? handleLeftClear : handleRightClear
             }
             openModal={openModal}
             onLeftPress={() => {
@@ -172,7 +178,6 @@ const WatchList = () => {
           />
         )}
       </div>
-
       {modalOpen && (
         <GenericModal
           open={modalOpen}

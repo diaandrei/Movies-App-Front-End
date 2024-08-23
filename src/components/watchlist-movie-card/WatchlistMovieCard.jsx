@@ -10,6 +10,13 @@ export const WatchListMovieCard = ({
   openModal,
   totalLength,
 }) => {
+  const poster = movie?.poster || "https://via.placeholder.com/150";
+  const title = movie?.title || "Untitled";
+  const plot = movie?.plot || "No plot available";
+  const yearOfRelease = movie?.yearOfRelease || "N/A";
+  const genres = movie?.genres || [];
+  const movieRatings = movie?.movieRatings || [];
+
   return (
     <div className="relative p-4 rounded-md bg-white shadow-lg">
       <div
@@ -27,45 +34,41 @@ export const WatchListMovieCard = ({
       <Link to={`/movie/${movie?.id}`} className="flex items-start space-x-4">
         <div className="flex-shrink-0">
           <img
-            src={movie.poster || "https://via.placeholder.com/150"}
-            alt={movie.title}
+            src={poster}
+            alt={title}
             className="w-32 h-32 rounded-md object-cover"
           />
         </div>
         <div>
-          <h2 className="text-xl font-bold">{movie.title}</h2>
-          <p className="text-gray-400 text-sm font-semibold">
-            {movie.yearOfRelease}
-          </p>
+          <h2 className="text-xl font-bold">{title}</h2>
+          <p className="text-gray-400 text-sm font-semibold">{yearOfRelease}</p>
           {movie.totalSeasons && (
             <p className="text-gray-400 text-sm font-semibold">
               {movie.totalSeasons}
             </p>
           )}
-          {movie.ratings && (
-            <p className="text-yellow-500 text-sm ">{`⭐ ${
-              movie.rating || 0
-            }`}</p>
+          {movie.rating && (
+            <p className="text-yellow-500 text-sm ">{`⭐ ${movie.rating}`}</p>
           )}
-          <p className="mt-2 text-sm font-semibold">{movie.plot}</p>
+          <p className="mt-2 text-sm font-semibold">{plot}</p>
           <div className="mt-2 flex items-center text-sm ">
-            <h3 className="font-bold text-black ">Stars:</h3>
-            <ul className=" ml-2 list-none gap-2 list-inside text-sm text-black flex">
-              {movie.genres.map((star) => (
+            <h3 className="font-bold text-black">Stars:</h3>
+            <ul className="ml-2 list-none gap-2 list-inside text-sm text-black flex">
+              {genres.map((star) => (
                 <li key={star.id}>
-                  <a className="  text-black  ">{star.name}</a>
+                  <a className="text-black">{star.name}</a>
                 </li>
               ))}
             </ul>
           </div>
-          {movie?.movieRatings?.length > 0 && (
+          {movieRatings.length > 0 && (
             <div className="mt-2 flex items-center text-sm ">
-              <h3 className="font-bold text-black ">Title Ratings: </h3>
+              <h3 className="font-bold text-black">Title Ratings:</h3>
               <div className="text-yellow-600 mx-1">
                 <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
               </div>
               <span className="text-black">
-                {movie?.movieRatings[0]?.rating}
+                {movieRatings[0]?.rating || "N/A"}
               </span>
             </div>
           )}

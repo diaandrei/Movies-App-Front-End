@@ -16,7 +16,7 @@ export const WatchListItem = ({
   rightItem,
 }) => {
   return (
-    <div className="w-full  mx-auto mt-10 ">
+    <div className="w-full mx-auto mt-10">
       <div className="flex justify-around bg-darkBlue-900 p-2 rounded-full">
         <button
           className={`py-2 px-4 w-full rounded-full transition-colors duration-300 ${
@@ -90,7 +90,7 @@ export const WatchListItem = ({
             <div className="mb-4 flex border px-2 py-1 rounded-full border-gray-700 items-center">
               <input
                 type="text"
-                placeholder="Search watchlist"
+                placeholder="Search rated titles"
                 value={searchQuery}
                 onChange={handleSearchChange}
                 className="p-2 w-full border-none focus:outline-none rounded-full"
