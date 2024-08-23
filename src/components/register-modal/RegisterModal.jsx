@@ -32,11 +32,9 @@ export const RegisterModal = ({ modalIsOpen, closeModal }) => {
           </button>
           <div className="sm:mx-auto sm:w-full sm:max-w-md mb-4">
             <h2 className=" text-3xl font-extrabold text-white">
-              Get Started Now
+              Access Your Account
             </h2>
-            <p className="mt-1  text-sm text-white">
-              Please enter your credentials to access your account.
-            </p>
+            <p className="mt-1  text-sm text-white">Sign in to continue.</p>
           </div>
           <SignInForm />
         </div>

@@ -127,8 +127,13 @@ const SignUp = () => {
                     isLoading={isLoading}
                     title={"Sign Up"}
                   />
-                  <p className="mt-1 cursor-pointer hover:text-blue-800  hover:underline text-sm text-blue-900 text-center">
-                    <a href="/sign-in">Already have an account ?</a>
+                  <p className="mt-4 cursor-pointer hover:text-blue-800  hover:underline text-sm text-blue-900 text-center">
+                    <a
+                      href="/sign-in"
+                      className="text-blue-400 hover:text-blue-300 hover:underline font-semibold"
+                    >
+                      Already have an account ?
+                    </a>
                   </p>
                 </div>
               </div>

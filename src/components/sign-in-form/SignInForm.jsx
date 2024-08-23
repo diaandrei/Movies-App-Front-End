@@ -7,6 +7,7 @@ import { InputField } from "../input-field/InputField.jsx";
 import { GenericButton } from "../generic-button/GenericButton.jsx";
 import { path } from "../../common/routesNames.js";
 import { toast } from "react-toastify";
+import "./style.css";
 
 export const SignInForm = ({}) => {
   const [accountLoginApi, { isLoading }] = usePostApiAccountLoginMutation();
@@ -90,7 +91,12 @@ export const SignInForm = ({}) => {
             />
             <p className="text-white text-center my-2">Or</p>
             <p className="mt-1 cursor-pointer hover:text-blue-800  hover:underline text-sm text-blue-900 text-center">
-              <a href="/sign-up">Sign Up</a>
+              <a
+                href="/sign-up"
+                className="text-blue-400 hover:text-blue-300 hover:underline font-semibold"
+              >
+                Sign Up
+              </a>
             </p>
           </div>
         </>
