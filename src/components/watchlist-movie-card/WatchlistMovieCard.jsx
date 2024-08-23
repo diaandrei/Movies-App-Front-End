@@ -24,7 +24,7 @@ export const WatchListMovieCard = ({
       >
         <DeleteIcon style={{ color: "red" }} />
       </div>
-      <Link to={`/title/${movie?.id}`} className="flex items-start space-x-4">
+      <Link to={`/movie/${movie?.id}`} className="flex items-start space-x-4">
         <div className="flex-shrink-0">
           <img
             src={movie.poster || "https://via.placeholder.com/150"}

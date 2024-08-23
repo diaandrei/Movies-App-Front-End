@@ -37,7 +37,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
             >
               {data?.map((item, index) => (
                 <Link
-                  to={`/title/${item?.id}`}
+                  to={`/movie/${item?.id}`}
                   key={index}
                   className="flex flex-col  justify-between  rounded-lg shadow-md cursor-pointer"
                 >
@@ -75,7 +75,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
                       }}
                     >
                       <Link
-                        to={`/title/${item?.id}`}
+                        to={`/movie/${item?.id}`}
                         className=" flex items-center justify-center cursor-pointer mb-5 cursor-pointer"
                       >
                         <div className="w-1/2 h-32">

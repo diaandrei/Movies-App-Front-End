@@ -12,7 +12,7 @@ export const path = {
   watchList: "/watch-list",
   signUp: "/sign-up",
   signIn: "/sign-in",
-  movieDetail: "/title/:id",
+  movieDetail: "/movie/:id",
   createMovie: "/create-title",
 };
 export const routes = {
@@ -20,7 +20,7 @@ export const routes = {
   watchList: "/watch-list",
   signUp: "/sign-up",
   signIn: "/sign-in",
-  movieDetail: "/title/:id",
+  movieDetail: "/movie/:id",
   createMovie: "/create-title",
 };
 

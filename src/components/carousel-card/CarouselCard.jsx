@@ -129,7 +129,7 @@ export const CarouselCard = ({
             return (
               <div className="flex flex-col   mx-3 justify-between pb-4 bg-cardBg-400  rounded-lg shadow-md">
                 <Link
-                  to={`/title/${item?.id}`}
+                  to={`/movie/${item?.id}`}
                   className="relative group overflow-hidden cursor-pointer"
                 >
                   <img

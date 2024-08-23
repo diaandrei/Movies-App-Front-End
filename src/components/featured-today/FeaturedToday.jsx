@@ -8,7 +8,7 @@ export const FeaturedToday = ({ data }) => {
       <div class="flex overflow-x-scroll duration-1000 space-x-4 max-w-4xl mb-4  p-4">
         {data?.map((item, index) => (
           <div key={index} className="flex-shrink-0 cursor-pointer">
-            <Link to={`/title/${item?.id}`}>
+            <Link to={`/movie/${item?.id}`}>
               <div className="relative group">
                 <img
                   src={item?.img}

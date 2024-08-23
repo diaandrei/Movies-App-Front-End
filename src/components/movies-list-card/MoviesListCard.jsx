@@ -40,7 +40,7 @@ export const MovieListCard = ({
                 >
                   <div className="flex flex-col md:flex-row items-start  w-full">
                     <Link
-                      to={`/title/${movie?.id}`}
+                      to={`/movie/${movie?.id}`}
                       className="flex flex-col md:flex-row items-start md:items-center w-full"
                     >
                       <img
