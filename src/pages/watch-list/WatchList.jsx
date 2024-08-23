@@ -82,7 +82,10 @@ const WatchList = () => {
       } = watchlistResponse;
 
       if (watchlistResponse && watchlistSuccess) {
-        setWatchListContent(watchlistItems || []);
+        const unwatchedMovies = watchlistItems.filter(
+          (movie) => movie.movieRatings.length === 0
+        );
+        setWatchListContent(unwatchedMovies || []);
       }
 
       const ratedResponse = await ratedMoviesApi();
