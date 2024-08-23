@@ -1,5 +1,4 @@
 import { emptySplitApi as api } from "./emptySplitApi";
-
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     postApiAccountRegister: build.mutation<
@@ -76,7 +75,7 @@ const injectedRtkApi = api.injectEndpoints({
       GetApiMoviesFavoriteMoviesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/movies/favourites`,
+        url: `/api/movies/favorites`,
         params: {
           Title: queryArg.title,
           Year: queryArg.year,
@@ -195,7 +194,6 @@ const injectedRtkApi = api.injectEndpoints({
   }),
   overrideExisting: false,
 });
-
 export { injectedRtkApi as MovuesApi };
 export type PostApiAccountRegisterApiResponse =
   /** status 200 Success */ MoviesApplicationModelsResponseModel601SystemString20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798ERead;
@@ -270,7 +268,7 @@ export type DeleteApiMoviesDeleteMovieWatchListApiArg = {
   userWatchlistId?: string;
 };
 export type GetApiMoviesAllMovieWatchListApiResponse =
-  /** status 200 Success */ MoviesApplicationModelsResponseModel601SystemCollectionsGenericIEnumerable601MoviesApplicationDtOsMovieDto20MoviesApplication20Version100020CultureNeutral20PublicKeyTokenNull20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798ERead;
+  /** status 200 Success */ MoviesApplicationModelsResponseModel601MoviesContractsResponsesMoviesResponseDto20MoviesContracts20Version100020CultureNeutral20PublicKeyTokenNullRead;
 export type GetApiMoviesAllMovieWatchListApiArg = void;
 export type GetApiMoviesTopMoviesListApiResponse =
   /** status 200 Success */ MoviesApplicationModelsResponseModel601MoviesContractsResponsesMoviesResponse20MoviesContracts20Version100020CultureNeutral20PublicKeyTokenNullRead;
@@ -1017,6 +1015,8 @@ export type MoviesContractsRequestsRegisterRequest = {
 export type MoviesContractsResponsesLoginDto = {
   token?: string | null;
   isAdmin?: boolean;
+  name?: string | null;
+  email?: string | null;
 };
 export type MoviesApplicationModelsResponseModel601MoviesContractsResponsesLoginDto20MoviesContracts20Version100020CultureNeutral20PublicKeyTokenNull =
   {
@@ -1051,6 +1051,7 @@ export type MoviesContractsResponsesCastResponse = {
   id?: string;
   name?: string | null;
   role?: string | null;
+  updatedAt?: string | null;
 };
 export type MoviesContractsResponsesGenreResponse = {
   id?: string;
@@ -1064,6 +1065,7 @@ export type MoviesContractsResponsesExternalRatingResponse = {
   source?: string | null;
 };
 export type MoviesContractsResponsesOmdbRatingResponse = {
+  id?: string;
   source?: string | null;
   value?: string | null;
 };
@@ -1073,7 +1075,15 @@ export type MoviesContractsResponsesMovieRatingResponse = {
   rating?: number;
   userId?: string | null;
   isUserRated?: boolean;
-  movie?: MoviesContractsResponsesMovieResponse;
+  updatedAt?: string | null;
+};
+export type MoviesContractsResponsesUserWatchlistResponse = {
+  id?: string;
+  movieId?: string;
+  userId?: string | null;
+  createdAt?: string;
+  updatedAt?: string | null;
+  isActive?: boolean;
 };
 export type MoviesContractsResponsesMovieResponse = {
   id?: string;
@@ -1092,9 +1102,13 @@ export type MoviesContractsResponsesMovieResponse = {
   externalRatings?: MoviesContractsResponsesExternalRatingResponse[] | null;
   omdbRatings?: MoviesContractsResponsesOmdbRatingResponse[] | null;
   movieRatings?: MoviesContractsResponsesMovieRatingResponse[] | null;
+  userWatchlists?: MoviesContractsResponsesUserWatchlistResponse[] | null;
   rating?: number | null;
   isUserRated?: boolean;
+  userWatchlistId?: string;
+  isMovieWatchlist?: boolean;
   userRating?: number | null;
+  firstAddedToWatchlistAt?: string | null;
   createdAt?: string;
   updatedAt?: string | null;
 };
@@ -1145,33 +1159,33 @@ export type MoviesApplicationModelsResponseModel601MoviesContractsResponsesMovie
   };
 export type MoviesContractsRequestsUpdateMovieRequest = {
   id?: string;
+  runtime?: string | null;
+  rated?: string | null;
   plot?: string | null;
-};
-export type MoviesApplicationModelsGenre = {
-  id?: string;
+  awards?: string | null;
+  poster?: string | null;
+  totalSeasons?: string | null;
+  isActive?: boolean;
+  rating?: number | null;
+  userRating?: number | null;
   createdAt?: string;
   updatedAt?: string | null;
-  name?: string | null;
-  movies?: MoviesApplicationModelsMovie[] | null;
+  cast?: MoviesContractsResponsesCastResponse[] | null;
+  genres?: MoviesContractsResponsesGenreResponse[] | null;
+  externalRatings?: MoviesContractsResponsesExternalRatingResponse[] | null;
+  omdbRatings?: MoviesContractsResponsesOmdbRatingResponse[] | null;
+  movieRatings?: MoviesContractsResponsesMovieRatingResponse[] | null;
 };
-export type MoviesApplicationModelsCast = {
+export type MoviesApplicationModelsMovieRating = {
   id?: string;
-  name?: string | null;
-  role?: string | null;
-  movies?: MoviesApplicationModelsMovie[] | null;
-};
-export type MoviesApplicationModelsExternalRating = {
-  id?: string;
-  rating?: string | null;
-  source?: string | null;
   movieId?: string;
+  rating?: number;
+  userId?: string | null;
+  isUserRated?: boolean;
+  createdAt?: string;
+  updatedAt?: string | null;
+  user?: MoviesContractsModelsApplicationUser;
   movie?: MoviesApplicationModelsMovie;
-};
-export type MoviesApplicationModelsOmdbRating = {
-  id?: string;
-  movieId?: string;
-  source?: string | null;
-  value?: string | null;
 };
 export type MoviesContractsModelsApplicationUser = {
   id?: string | null;
@@ -1193,18 +1207,44 @@ export type MoviesContractsModelsApplicationUser = {
   lastName?: string | null;
   isTrustedMember?: boolean;
   isAdmin?: boolean;
+  firstAddedToWatchlistAt?: string | null;
   movieRatings?: MoviesApplicationModelsMovieRating[] | null;
 };
-export type MoviesApplicationModelsMovieRating = {
+export type MoviesApplicationModelsGenre = {
   id?: string;
-  movieId?: string;
-  rating?: number;
-  userId?: string | null;
-  isUserRated?: boolean;
   createdAt?: string;
   updatedAt?: string | null;
-  user?: MoviesContractsModelsApplicationUser;
+  name?: string | null;
+  movies?: MoviesApplicationModelsMovie[] | null;
+};
+export type MoviesApplicationModelsCast = {
+  id?: string;
+  name?: string | null;
+  role?: string | null;
+  movies?: MoviesApplicationModelsMovie[] | null;
+};
+export type MoviesApplicationModelsUserWatchlist = {
+  id?: string;
+  movieId?: string;
   movie?: MoviesApplicationModelsMovie;
+  userId?: string | null;
+  user?: MoviesContractsModelsApplicationUser;
+  createdAt?: string;
+  updatedAt?: string | null;
+  isActive?: boolean;
+};
+export type MoviesApplicationModelsExternalRating = {
+  id?: string;
+  rating?: string | null;
+  source?: string | null;
+  movieId?: string;
+  movie?: MoviesApplicationModelsMovie;
+};
+export type MoviesApplicationModelsOmdbRating = {
+  id?: string;
+  movieId?: string;
+  source?: string | null;
+  value?: string | null;
 };
 export type MoviesApplicationModelsMovie = {
   id?: string;
@@ -1222,8 +1262,10 @@ export type MoviesApplicationModelsMovie = {
   userRating?: number | null;
   createdAt?: string;
   updatedAt?: string | null;
+  appUser?: MoviesContractsModelsApplicationUser;
   genres?: MoviesApplicationModelsGenre[] | null;
   cast?: MoviesApplicationModelsCast[] | null;
+  userWatchlists?: MoviesApplicationModelsUserWatchlist[] | null;
   externalRatings?: MoviesApplicationModelsExternalRating[] | null;
   omdbRatings?: MoviesApplicationModelsOmdbRating[] | null;
   movieRatings?: MoviesApplicationModelsMovieRating[] | null;
@@ -1244,32 +1286,33 @@ export type MoviesApplicationModelsResponseModel601SystemCollectionsGenericIEnum
     exceptionMessage?: SystemExceptionRead;
     content?: MoviesApplicationModelsMovie[] | null;
   };
-export type MoviesApplicationDtOsCastDto = {
+export type MoviesContractsResponsesCastResponseDto = {
   id?: string;
   name?: string | null;
   role?: string | null;
 };
-export type MoviesApplicationDtOsGenreDto = {
+export type MoviesContractsResponsesGenreResponseDto = {
   id?: string;
   name?: string | null;
 };
-export type MoviesApplicationDtOsExternalRatingDto = {
+export type MoviesContractsResponsesExternalRatingResponseDto = {
   id?: string;
   source?: string | null;
   rating?: string | null;
 };
-export type MoviesApplicationDtOsOmdbRatingDto = {
+export type MoviesContractsResponsesOmdbRatingResponseDto = {
   id?: string;
   source?: string | null;
   value?: string | null;
 };
-export type MoviesApplicationDtOsMovieRatingDto = {
+export type MoviesContractsResponsesMovieRatingResponseDto = {
   id?: string;
   rating?: number;
 };
-export type MoviesApplicationDtOsMovieDto = {
+export type MoviesContractsResponsesMovieResponseDto = {
   id?: string;
   userId?: string | null;
+  userWatchlistId?: string;
   title?: string | null;
   released?: string | null;
   runtime?: string | null;
@@ -1284,28 +1327,42 @@ export type MoviesApplicationDtOsMovieDto = {
   userRating?: number | null;
   createdAt?: string;
   updatedAt?: string | null;
-  userWatchlistId?: string;
-  cast?: MoviesApplicationDtOsCastDto[] | null;
-  genres?: MoviesApplicationDtOsGenreDto[] | null;
-  externalRatings?: MoviesApplicationDtOsExternalRatingDto[] | null;
-  omdbRatings?: MoviesApplicationDtOsOmdbRatingDto[] | null;
-  movieRatings?: MoviesApplicationDtOsMovieRatingDto[] | null;
+  isMovieWatchlist?: boolean;
+  firstAddedToWatchlistAt?: string | null;
+  cast?: MoviesContractsResponsesCastResponseDto[] | null;
+  genres?: MoviesContractsResponsesGenreResponseDto[] | null;
+  externalRatings?: MoviesContractsResponsesExternalRatingResponseDto[] | null;
+  omdbRatings?: MoviesContractsResponsesOmdbRatingResponseDto[] | null;
+  movieRatings?: MoviesContractsResponsesMovieRatingResponseDto[] | null;
 };
-export type MoviesApplicationModelsResponseModel601SystemCollectionsGenericIEnumerable601MoviesApplicationDtOsMovieDto20MoviesApplication20Version100020CultureNeutral20PublicKeyTokenNull20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798E =
+export type MoviesContractsResponsesMoviesResponseDto = {
+  items?: MoviesContractsResponsesMovieResponseDto[] | null;
+  pageSize?: number;
+  page?: number;
+  total?: number;
+};
+export type MoviesContractsResponsesMoviesResponseDtoRead = {
+  items?: MoviesContractsResponsesMovieResponseDto[] | null;
+  pageSize?: number;
+  page?: number;
+  total?: number;
+  hasNextPage?: boolean;
+};
+export type MoviesApplicationModelsResponseModel601MoviesContractsResponsesMoviesResponseDto20MoviesContracts20Version100020CultureNeutral20PublicKeyTokenNull =
   {
     success?: boolean;
     title?: string | null;
     description?: string | null;
     exceptionMessage?: SystemException;
-    content?: MoviesApplicationDtOsMovieDto[] | null;
+    content?: MoviesContractsResponsesMoviesResponseDto;
   };
-export type MoviesApplicationModelsResponseModel601SystemCollectionsGenericIEnumerable601MoviesApplicationDtOsMovieDto20MoviesApplication20Version100020CultureNeutral20PublicKeyTokenNull20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798ERead =
+export type MoviesApplicationModelsResponseModel601MoviesContractsResponsesMoviesResponseDto20MoviesContracts20Version100020CultureNeutral20PublicKeyTokenNullRead =
   {
     success?: boolean;
     title?: string | null;
     description?: string | null;
     exceptionMessage?: SystemExceptionRead;
-    content?: MoviesApplicationDtOsMovieDto[] | null;
+    content?: MoviesContractsResponsesMoviesResponseDtoRead;
   };
 export type MoviesApplicationModelsResponseModel601SystemCollectionsGenericIEnumerable601MoviesApplicationModelsMovieRating20MoviesApplication20Version100020CultureNeutral20PublicKeyTokenNull20SystemPrivateCoreLib20Version700020CultureNeutral20PublicKeyToken7Cec85D7Bea7798E =
   {
