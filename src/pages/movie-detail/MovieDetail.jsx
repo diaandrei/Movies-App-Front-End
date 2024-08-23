@@ -1,21 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useLazyGetApiMoviesGetByIdQuery } from "../../redux/slice/movies.ts";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useDeleteApiMoviesDeleteMovieMutation,
+  useLazyGetApiMoviesGetByIdQuery,
+} from "../../redux/slice/movies.ts";
 import { GoDotFill } from "react-icons/go";
 import { CircularProgress } from "@mui/material";
-import { RatingModal } from "../../components/rating-modal/RatingModal";
-import { RegisterModal } from "../../components/register-modal/RegisterModal";
-import { getToken } from "../../utils/LocalStorage.js";
+import {
+  GenericModal,
+  GenericUpdateModal,
+  RatingModal,
+  RegisterModal,
+} from "../../components/index.js";
+import { getIsAdmin, getToken } from "../../utils/LocalStorage.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsRated } from "../../redux/slice/ratingSlice.js";
+import { MdModeEdit, MdDeleteOutline } from "react-icons/md";
+import { toast } from "react-toastify";
+import { path } from "../../common/routesNames.js";
 
 const MovieDetail = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const checkRating = useSelector((state) => state.ratingReducer.isRated);
-
   const [getMovieDetailApi, { isLoading }] = useLazyGetApiMoviesGetByIdQuery();
+  const [deleteMovieByIdApi, { isLoading: confirmBtnLoader }] =
+    useDeleteApiMoviesDeleteMovieMutation();
   const [movieDetailContent, setMovieDetailContent] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
+  const [modalDetail, setModalDetail] = useState({
+    modalType: "",
+    modalMessage: "",
+  });
+  const [movieId, setMovieId] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
@@ -25,14 +43,65 @@ const MovieDetail = () => {
   }, [id, checkRating]);
 
   const fetchMovieDetail = async (id) => {
-    let response = await getMovieDetailApi({ id: id });
-    const {
-      data: { success, content },
-    } = response;
-    if (response && success) {
-      setMovieDetailContent(content || null);
-      dispatch(setIsRated(false));
+    try {
+      let response = await getMovieDetailApi({ id: id });
+      const {
+        data: { success, content },
+      } = response;
+      if (response && success) {
+        setMovieDetailContent(content || null);
+        dispatch(setIsRated(false));
+      } else {
+        navigate(path.home, { replace: true });
+      }
+    } catch (error) {
+      toast.error(error?.message);
+      navigate(path.home, { replace: true });
     }
+  };
+
+  const performDeleteAction = async (id) => {
+    try {
+      let response = await deleteMovieByIdApi({
+        id: id,
+      });
+
+      const {
+        data: { success, title },
+      } = response;
+      setModalOpen(false);
+      if (response && success) {
+        toast.success(title);
+        setTimeout(() => {
+          navigate(-1);
+        }, 1000);
+      } else {
+        toast.error(title);
+      }
+    } catch (error) {
+      setModalOpen(false);
+    }
+  };
+
+  const handleDelete = (id) => {
+    openModal(
+      "confirmation",
+      "Are you sure you want to delete this title?",
+      id
+    );
+  };
+
+  const openModal = (type, message, id) => {
+    setMovieId(id);
+    setModalDetail({
+      modalType: type,
+      modalMessage: message,
+    });
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -42,19 +111,38 @@ const MovieDetail = () => {
           <CircularProgress size={40} thickness={6} sx={{ color: "white" }} />
         </div>
       ) : (
-        movieDetailContent && <DetailCard movie={movieDetailContent} />
+        movieDetailContent && (
+          <DetailCard
+            movie={movieDetailContent}
+            onDeletePress={handleDelete}
+            uponSuccesPress={() => {
+              fetchMovieDetail(id);
+            }}
+          />
+        )
       )}
+      <GenericModal
+        open={modalOpen}
+        onClose={closeModal}
+        message={modalDetail?.modalMessage}
+        type={modalDetail?.modalType}
+        isLoading={confirmBtnLoader}
+        onConfirm={() => {
+          performDeleteAction(movieId);
+        }}
+      />
     </div>
   );
 };
 
-const DetailCard = ({ movie }) => {
+const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
   function convertMinutesStringToHours(minutesString) {
     const minutes = parseInt(minutesString.match(/\d+/)[0], 10);
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;
   }
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [modalIsOpen, setIsModalOpen] = useState(false);
 
   function openModal() {
@@ -66,9 +154,30 @@ const DetailCard = ({ movie }) => {
   }
   const isLoggedIn = getToken();
 
+  const checkIsAdmin = getIsAdmin();
+  const isAdmin = checkIsAdmin ? JSON?.parse(getIsAdmin()) : false;
+  const handleOpen = () => setUpdateModalOpen(true);
+  const handleClose = () => setUpdateModalOpen(false);
+
   return (
     <div className="max-w-7xl mx-auto rounded-lg  shadow-lg overflow-hidden">
       <>
+        {isAdmin && isLoggedIn && (
+          <div className="  flex items-center justify-end my-3">
+            <button
+              onClick={handleOpen}
+              className="mt-4 md:mt-0 flex items-center justify-center bg-darkBlue-800 h-11 w-12 text-white rounded-md  focus:outline-none focus:ring-2 focus:ring-green-500 mr-2 hover:scale-110 transition-transform"
+            >
+              <MdModeEdit size={20} />
+            </button>
+            <button
+              onClick={() => onDeletePress(movie.id)}
+              className="mt-4 md:mt-0 flex items-center justify-center h-11 w-12 bg-red-700 shadow-md text-white rounded-md  hover:scale-110 transition-transform"
+            >
+              <MdDeleteOutline size={20} />
+            </button>
+          </div>
+        )}
         <div className="  flex items-center justify-between">
           <div className=" ">
             <h1 className="text-3xl font-bold mb-2 text-white">
@@ -109,7 +218,9 @@ const DetailCard = ({ movie }) => {
             </div>
             <div>
               <strong>Total Rating</strong>
-              <p className="text-center">{movie?.userRating || 0}</p>
+              <p className="text-center">
+                {movie?.userRating?.toFixed(1) || 0}
+              </p>
             </div>
           </div>
         </div>
@@ -141,7 +252,9 @@ const DetailCard = ({ movie }) => {
               <strong> Actors: </strong>
               {movie?.cast?.map((actor, index) => (
                 <li className=" text-white  " key={index}>
-                  {actor?.name || "N/A"}
+                  {`${actor?.name} ${
+                    index < movie?.cast?.length - 1 ? "," : ""
+                  }` || "N/A"}
                 </li>
               ))}
             </ul>
@@ -152,6 +265,12 @@ const DetailCard = ({ movie }) => {
           </div>
         </div>
       </>
+      <GenericUpdateModal
+        data={movie}
+        open={updateModalOpen}
+        onClose={handleClose}
+        uponSucces={uponSuccesPress}
+      />
       <RegisterModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );
