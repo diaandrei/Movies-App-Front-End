@@ -8,9 +8,11 @@ import {
 import { usePostApiMoviesCreateMovieMutation } from "../../redux/slice/movies.ts";
 import { createMovieSchema } from "../../common/schemas.js";
 import { Formik, Form } from "formik";
-import { path } from "../../common/routesNames.js";
+import { useNavigate } from "react-router";
 
 const CreateMovie = () => {
+  const navigate = useNavigate();
+
   const initialValues = {
     title: "",
   };
@@ -22,7 +24,7 @@ const CreateMovie = () => {
 
   const [createMovieApi, { isLoading }] = usePostApiMoviesCreateMovieMutation();
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
-
+  const [movieId, setMovieId] = useState(null);
   const handleYearChange = (year) => {
     setSelectedYear(year);
   };
@@ -35,11 +37,13 @@ const CreateMovie = () => {
           yearOfRelease: selectedYear?.toString(),
         },
       });
+
       const {
-        data: { success, title },
+        data: { success, title, content },
       } = response;
 
       if (response && success) {
+        setMovieId(content);
         setModalDetail({
           type: success && "success",
           message: title,
@@ -86,7 +90,7 @@ const CreateMovie = () => {
           <div className=" min-h-screen w-full">
             <div className="max-w-7xl mx-auto py-5">
               <div className=" text-black text-xl font-semibold ">
-                Create a movie by entering title and release year
+                Start by entering a title and the release year.
               </div>
               <div className=" flex items-center justify-between my-2 gap-3 ">
                 <div className=" w-1/2 ">
@@ -132,7 +136,7 @@ const CreateMovie = () => {
               onClose={() => {
                 setShowModal(false);
                 if (modalDetail?.type == "success") {
-                  window.location.replace(path.home);
+                  navigate(`/movie/${movieId}`);
                 }
               }}
               type={modalDetail?.type}
