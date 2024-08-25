@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import { getToken } from "../../utils/LocalStorage.js";
 import { useSelector } from "react-redux";
 
-export const MovieSelectionPopup = ({ open, handleClose, movies }) => {
+export const MovieSelectionPopup = ({ open, handleClose }) => {
   const getSelectedIds = useSelector(
     (state) => state.topTenMoviesReducer.selectedMovies
   );

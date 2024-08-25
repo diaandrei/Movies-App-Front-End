@@ -82,10 +82,7 @@ const WatchList = () => {
       } = watchlistResponse;
 
       if (watchlistResponse && watchlistSuccess) {
-        const unwatchedMovies = watchlistItems.filter(
-          (movie) => movie.movieRatings.length === 0
-        );
-        setWatchListContent(unwatchedMovies || []);
+        setWatchListContent(watchlistItems || []);
       }
 
       const ratedResponse = await ratedMoviesApi();
@@ -136,7 +133,7 @@ const WatchList = () => {
         <div className="max-w-7xl mx-auto flex items-center h-full">
           <div className="lg:ml-0 ml-5">
             <span className="text-white text-2xl font-bold">
-              Your WatchList
+              Your Watchlist
             </span>
             <p className="text-[#BCBCBC] mt-3 text-sm font-semibold">
               {

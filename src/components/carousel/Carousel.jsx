@@ -50,7 +50,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">
                       <div className="text-center text-white">
                         <p className="text-lg font-bold">{item.title}</p>
-                        <p className="text-sm">Director: {item.released}</p>
+                        <p className="text-sm">Released: {item.released}</p>
                       </div>
                     </div>
                   </div>

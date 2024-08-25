@@ -9,28 +9,31 @@ export const WatchListMovieCard = ({
   onDelete,
   openModal,
   totalLength,
+  showDeleteButton,
 }) => {
   const poster = movie?.poster || "https://via.placeholder.com/150";
   const title = movie?.title || "Untitled";
   const plot = movie?.plot || "No plot available";
   const yearOfRelease = movie?.yearOfRelease || "N/A";
   const genres = movie?.genres || [];
-  const movieRatings = movie?.movieRatings || [];
+  const rating = movie?.rating || movie?.movieRatings?.[0]?.rating || null;
 
   return (
     <div className="relative p-4 rounded-md bg-white shadow-lg">
-      <div
-        className="absolute top-2 right-2 cursor-pointer"
-        onClick={() =>
-          openModal(
-            "confirmation",
-            "Are you sure you want to delete this title from the watchlist?",
-            movie?.userWatchlistId
-          )
-        }
-      >
-        <DeleteIcon style={{ color: "red" }} />
-      </div>
+      {showDeleteButton && (
+        <div
+          className="absolute top-2 right-2 cursor-pointer"
+          onClick={() =>
+            openModal(
+              "confirmation",
+              "Are you sure you want to delete this title from the watchlist?",
+              movie?.userWatchlistId
+            )
+          }
+        >
+          <DeleteIcon style={{ color: "red" }} />
+        </div>
+      )}
       <Link to={`/movie/${movie?.id}`} className="flex items-start space-x-4">
         <div className="flex-shrink-0">
           <img
@@ -42,17 +45,9 @@ export const WatchListMovieCard = ({
         <div>
           <h2 className="text-xl font-bold">{title}</h2>
           <p className="text-gray-400 text-sm font-semibold">{yearOfRelease}</p>
-          {movie.totalSeasons && (
-            <p className="text-gray-400 text-sm font-semibold">
-              {movie.totalSeasons}
-            </p>
-          )}
-          {movie.rating && (
-            <p className="text-yellow-500 text-sm ">{`⭐ ${movie.rating}`}</p>
-          )}
           <p className="mt-2 text-sm font-semibold">{plot}</p>
           <div className="mt-2 flex items-center text-sm ">
-            <h3 className="font-bold text-black">Stars:</h3>
+            <h3 className="font-bold text-black">Genres:</h3>
             <ul className="ml-2 list-none gap-2 list-inside text-sm text-black flex">
               {genres.map((star) => (
                 <li key={star.id}>
@@ -61,15 +56,13 @@ export const WatchListMovieCard = ({
               ))}
             </ul>
           </div>
-          {movieRatings.length > 0 && (
+          {rating && (
             <div className="mt-2 flex items-center text-sm ">
               <h3 className="font-bold text-black">Title Ratings:</h3>
               <div className="text-yellow-600 mx-1">
                 <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
               </div>
-              <span className="text-black">
-                {movieRatings[0]?.rating || "N/A"}
-              </span>
+              <span className="text-black">{rating}</span>
             </div>
           )}
         </div>

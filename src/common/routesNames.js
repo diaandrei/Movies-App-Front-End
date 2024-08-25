@@ -9,7 +9,7 @@ import {
 
 export const path = {
   home: `/`,
-  watchList: "/watch-list",
+  watchList: "/watchlist",
   signUp: "/sign-up",
   signIn: "/sign-in",
   movieDetail: "/movie/:id",
@@ -17,7 +17,7 @@ export const path = {
 };
 export const routes = {
   home: `/`,
-  watchList: "/watch-list",
+  watchList: "/watchlist",
   signUp: "/sign-up",
   signIn: "/sign-in",
   movieDetail: "/movie/:id",

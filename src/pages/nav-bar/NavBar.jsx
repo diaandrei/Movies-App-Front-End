@@ -56,6 +56,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
   const onClear = () => {
     setQuery("");
   };
+
   useEffect(() => {
     if (query?.length >= 3) {
       searchMovieHandler(query);
@@ -224,7 +225,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
             />
           </div>
           <a
-            href="/watch-list"
+            href="/watchlist"
             className="block px-4 py-2 hover:text-gray-300 text-white"
           >
             <button onClick={checkSession} className="flex">

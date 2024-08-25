@@ -35,6 +35,7 @@ export const WatchListItem = ({
           {rightTitle}
         </button>
       </div>
+
       <div
         className={`transition-opacity duration-300 ${
           activeTab === 1 ? "opacity-100" : "opacity-0 hidden"
@@ -69,6 +70,7 @@ export const WatchListItem = ({
                     index={index}
                     openModal={openModal}
                     totalLength={leftItem?.length}
+                    showDeleteButton={true}
                   />
                 ))}
               </div>
@@ -80,6 +82,7 @@ export const WatchListItem = ({
           </div>
         </div>
       </div>
+
       <div
         className={`transition-opacity duration-300 ${
           activeTab === 2 ? "opacity-100" : "opacity-0 hidden"
@@ -114,6 +117,7 @@ export const WatchListItem = ({
                     index={index}
                     openModal={openModal}
                     totalLength={rightItem?.length}
+                    showDeleteButton={false}
                   />
                 ))}
               </div>
