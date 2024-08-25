@@ -16,14 +16,14 @@ export const ReactCarousel = ({ data, isLoading }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full my-7 rounded-lg  gap-5">
+    <div className="flex flex-col lg:flex-row w-full my-7 rounded-lg gap-5">
       {isLoading ? (
         <div className="h-[700px] flex w-full justify-center items-center">
           <CircularProgress size={40} thickness={6} sx={{ color: "white" }} />
         </div>
       ) : data?.length > 0 ? (
         <>
-          <div className="lg:w-4/5 relative -z-0 ">
+          <div className="lg:w-4/5 relative">
             <Carousel
               infiniteLoop
               showArrows={true}
@@ -39,16 +39,28 @@ export const ReactCarousel = ({ data, isLoading }) => {
                 <Link
                   to={`/movie/${item?.id}`}
                   key={index}
-                  className="flex flex-col  justify-between  rounded-lg shadow-md cursor-pointer"
+                  className="flex flex-col justify-between rounded-lg shadow-md cursor-pointer"
                 >
-                  <div className="relative group overflow-hidden  lg:h-[700px] h-[300px] rounded-lg bg-red-400">
-                    <img
-                      src={item?.poster}
-                      alt={item?.title}
-                      className="w-full h-full object-fill transform transition-transform rounded-t-md group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">
-                      <div className="text-center text-white">
+                  <div className="relative group overflow-hidden lg:h-[700px] h-[300px] rounded-lg bg-black flex items-center justify-center">
+                    <div
+                      className="absolute inset-0 bg-cover bg-center blur-lg"
+                      style={{
+                        backgroundImage: `url(${item?.poster})`,
+                      }}
+                    ></div>
+                    <div className="relative z-10 flex items-center justify-center">
+                      <img
+                        src={item?.poster}
+                        alt={item?.title}
+                        className="object-contain"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-filter backdrop-blur-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                      <div className="text-center text-white p-2">
                         <p className="text-lg font-bold">{item.title}</p>
                         <p className="text-sm">Released: {item.released}</p>
                       </div>
@@ -58,7 +70,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
               ))}
             </Carousel>
           </div>
-          <div className="lg:w-1/5 ml-4 ">
+          <div className="lg:w-1/5 ml-4">
             <span className="font-bold text-lg text-gold-500">Up Next</span>
             <div className="bg-[#1f1f1f] overflow-y-scroll hide-scrollbar lg:h-[662px] mt-2 p-2 rounded-md">
               <TransitionGroup>
@@ -76,7 +88,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
                     >
                       <Link
                         to={`/movie/${item?.id}`}
-                        className=" flex items-center justify-center cursor-pointer mb-5 cursor-pointer"
+                        className="flex items-center justify-center cursor-pointer mb-5"
                       >
                         <div className="w-1/2 h-32">
                           <img

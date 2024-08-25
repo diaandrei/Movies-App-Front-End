@@ -109,7 +109,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
 
   return (
     <>
-      <nav className="bg-darkBlue-900 p-4">
+      <nav className="bg-[#121212] p-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-end  space-x-4 w-1/2    ">
             <a href="/" className="text-white text-2xl font-bold ">

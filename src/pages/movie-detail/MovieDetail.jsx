@@ -44,7 +44,7 @@ const MovieDetail = () => {
 
   const fetchMovieDetail = async (id) => {
     try {
-      let response = await getMovieDetailApi({ id: id });
+      let response = await getMovieDetailApi({ id });
       const {
         data: { success, content },
       } = response;
@@ -63,7 +63,7 @@ const MovieDetail = () => {
   const performDeleteAction = async (id) => {
     try {
       let response = await deleteMovieByIdApi({
-        id: id,
+        id,
       });
 
       const {
@@ -142,6 +142,7 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
     const remainingMinutes = minutes % 60;
     return `${hours}h ${remainingMinutes}m`;
   }
+
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [modalIsOpen, setIsModalOpen] = useState(false);
 
@@ -152,61 +153,61 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
   function closeModal() {
     setIsModalOpen(false);
   }
-  const isLoggedIn = getToken();
 
+  const isLoggedIn = getToken();
   const checkIsAdmin = getIsAdmin();
   const isAdmin = checkIsAdmin ? JSON?.parse(getIsAdmin()) : false;
   const handleOpen = () => setUpdateModalOpen(true);
   const handleClose = () => setUpdateModalOpen(false);
 
   return (
-    <div className="max-w-7xl mx-auto rounded-lg  shadow-lg overflow-hidden">
+    <div className="max-w-7xl mx-auto rounded-lg shadow-lg overflow-hidden">
       <>
         {isAdmin && isLoggedIn && (
-          <div className="  flex items-center justify-end my-3">
+          <div className="flex items-center justify-end my-3">
             <button
               onClick={handleOpen}
-              className="mt-4 md:mt-0 flex items-center justify-center bg-darkBlue-800 h-11 w-12 text-white rounded-md  focus:outline-none focus:ring-2 focus:ring-green-500 mr-2 hover:scale-110 transition-transform"
+              className="mt-4 md:mt-0 flex items-center justify-center bg-darkBlue-800 h-11 w-12 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 mr-2 hover:scale-110 transition-transform"
             >
               <MdModeEdit size={20} />
             </button>
             <button
               onClick={() => onDeletePress(movie.id)}
-              className="mt-4 md:mt-0 flex items-center justify-center h-11 w-12 bg-red-700 shadow-md text-white rounded-md  hover:scale-110 transition-transform"
+              className="mt-4 md:mt-0 flex items-center justify-center h-11 w-12 bg-red-700 shadow-md text-white rounded-md hover:scale-110 transition-transform"
             >
               <MdDeleteOutline size={20} />
             </button>
           </div>
         )}
-        <div className="  flex items-center justify-between">
-          <div className=" ">
+        <div className="flex items-center justify-between">
+          <div>
             <h1 className="text-3xl font-bold mb-2 text-white">
               {movie.title}
             </h1>
-            <div className="flex items-center justify-center gap-3">
-              <span className=" text-sm text-white">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-white">
                 {movie.rated || "TV-MA"}
               </span>
-              <span className=" flex items-center text-sm text-white">
-                <GoDotFill color="" />
+              <span className="flex items-center text-sm text-white">
+                <GoDotFill />
                 {movie.yearOfRelease}
               </span>
               <span className="text-sm text-white">
-                {movie?.runtime == "N/A"
+                {movie?.runtime === "N/A"
                   ? movie?.runtime
                   : convertMinutesStringToHours(movie.runtime) || "N/A"}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-3 text-white">
+          <div className="flex items-center gap-3 text-white">
             <div>
               <strong>IMDb RATING</strong>
               <p className="text-center">{movie.omdbRatings[0]?.value || 0}</p>
             </div>
             <div>
               <strong>YOUR RATING</strong>
-              <p className="flex items-center justify-center">
+              <div className="flex items-center justify-center">
                 <RatingModal
                   movieRating={movie?.movieRatings}
                   movieName={movie?.title}
@@ -214,10 +215,10 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
                   isLoggedIn={isLoggedIn}
                   openModal={openModal}
                 />
-              </p>
+              </div>
             </div>
             <div>
-              <strong>Total Rating</strong>
+              <strong>TOTAL RATING</strong>
               <p className="text-center">
                 {movie?.userRating?.toFixed(1) || 0}
               </p>
@@ -225,34 +226,37 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <div className=" h-[50%]">
-            <div className="flex justify-center items-center my-2 rounded ">
+          <div className="h-[50%]">
+            <div className="flex justify-center items-center my-2 rounded">
               <img
                 src={movie.poster}
                 alt={movie.title}
-                className="  object-fill  "
+                className="object-fill"
               />
             </div>
           </div>
 
-          <div className=" flex items-center justify-between w-full  ">
+          <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              {movie?.genres?.map((item) => (
-                <div className="  px-4 py-1  border-white mr-2 rounded-full border text-white text-sm  ">
+              {movie?.genres?.map((item, index) => (
+                <div
+                  key={item?.id || index}
+                  className="px-4 py-1 border-white mr-2 rounded-full border text-white text-sm"
+                >
                   {item?.name || "N/A"}
                 </div>
               ))}
             </div>
           </div>
-          <div className=" text-white">
+          <div className="text-white">
             <strong>{movie.plot}</strong>
           </div>
           <div>
             <ul className="list-none gap-2 list-inside text-base text-white flex">
               <strong> Actors: </strong>
               {movie?.cast?.map((actor, index) => (
-                <li className=" text-white  " key={index}>
-                  {`${actor?.name} ${
+                <li className="text-white" key={actor?.id || index}>
+                  {`${actor?.name}${
                     index < movie?.cast?.length - 1 ? "," : ""
                   }` || "N/A"}
                 </li>
@@ -261,7 +265,7 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
           </div>
           <div className="flex items-center text-white">
             <strong>Released: </strong>
-            <p className=" ml-2"> {movie.released}</p>
+            <p className="ml-2">{movie.released}</p>
           </div>
         </div>
       </>

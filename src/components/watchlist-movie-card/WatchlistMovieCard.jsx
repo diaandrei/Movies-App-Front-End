@@ -34,31 +34,35 @@ export const WatchListMovieCard = ({
           <DeleteIcon style={{ color: "red" }} />
         </div>
       )}
-      <Link to={`/movie/${movie?.id}`} className="flex items-start space-x-4">
+      <div className="flex items-start space-x-4">
         <div className="flex-shrink-0">
-          <img
-            src={poster}
-            alt={title}
-            className="w-32 h-32 rounded-md object-cover"
-          />
+          <Link to={`/movie/${movie?.id}`}>
+            <img
+              src={poster}
+              alt={title}
+              className="w-32 h-32 rounded-md object-cover"
+            />
+          </Link>
         </div>
         <div>
-          <h2 className="text-xl font-bold">{title}</h2>
+          <h2 className="text-xl font-bold">
+            <Link to={`/movie/${movie?.id}`}>{title}</Link>
+          </h2>
           <p className="text-gray-400 text-sm font-semibold">{yearOfRelease}</p>
           <p className="mt-2 text-sm font-semibold">{plot}</p>
           <div className="mt-2 flex items-center text-sm ">
             <h3 className="font-bold text-black">Genres:</h3>
             <ul className="ml-2 list-none gap-2 list-inside text-sm text-black flex">
-              {genres.map((star) => (
-                <li key={star.id}>
-                  <a className="text-black">{star.name}</a>
+              {genres.map((genre) => (
+                <li key={genre.id}>
+                  <span className="text-black">{genre.name}</span>
                 </li>
               ))}
             </ul>
           </div>
           {rating && (
             <div className="mt-2 flex items-center text-sm ">
-              <h3 className="font-bold text-black">Title Ratings:</h3>
+              <h3 className="font-bold text-black">Your Rating:</h3>
               <div className="text-yellow-600 mx-1">
                 <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
               </div>
@@ -66,7 +70,7 @@ export const WatchListMovieCard = ({
             </div>
           )}
         </div>
-      </Link>
+      </div>
       {totalLength - 1 !== index && <div className="border-b px-4 mt-4" />}
     </div>
   );

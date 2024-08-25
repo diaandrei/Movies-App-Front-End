@@ -75,7 +75,7 @@ export const CarouselCard = ({
           autoPlay
           autoPlaySpeed={autoPlaySpeed || 5000}
           centerMode={false}
-          className="  py-7 "
+          className="py-7"
           draggable
           focusOnSelect={false}
           infinite
@@ -120,14 +120,17 @@ export const CarouselCard = ({
           slidesToSlide={1}
           swipeable
         >
-          {data?.map((item, index) => {
+          {data?.map((item) => {
             const trimTitle =
               item?.title?.length > 20
                 ? item?.title?.substring(0, 20) + "..."
                 : item?.title;
 
             return (
-              <div className="flex flex-col   mx-3 justify-between pb-4 bg-cardBg-400  rounded-lg shadow-md">
+              <div
+                key={item.id} // Adding the key prop here
+                className="flex flex-col mx-3 justify-between pb-4 bg-cardBg-400 rounded-lg shadow-md"
+              >
                 <Link
                   to={`/movie/${item?.id}`}
                   className="relative group overflow-hidden cursor-pointer"
@@ -135,7 +138,7 @@ export const CarouselCard = ({
                   <img
                     src={item?.poster}
                     alt={item?.title}
-                    className="w-full  object-fill h-72 transform transition-transform rounded-t-md group-hover:scale-110"
+                    className="w-full object-fill h-72 transform transition-transform rounded-t-md group-hover:scale-110"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">
                     <div className="text-center text-white">
@@ -150,7 +153,7 @@ export const CarouselCard = ({
                   <h3 className="text-base text-white mt-1">{trimTitle}</h3>
                   <div className="flex items-center justify-between">
                     <div className="flex text-yellow-400 items-center text-sm">
-                      <strong className=" text-white">Overall Rating: </strong>
+                      <strong className="text-white">Overall Rating: </strong>
                       <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
                       <p className="text-white">
                         {item?.userRating?.toFixed(1) || 0}
@@ -168,13 +171,13 @@ export const CarouselCard = ({
                     </div>
                   </div>
                 </div>
-                <div className="px-3 w-full mt-3 ">
+                <div className="px-3 w-full mt-3">
                   <button
                     disabled={btnLoader == item?.id || item?.isMovieWatchlist}
                     onClick={() => {
                       addToWatchlistHandler(item?.id);
                     }}
-                    className=" disabled:bg-gray-900 w-full flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg "
+                    className="disabled:bg-gray-900 w-full flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg"
                   >
                     {btnLoader == item?.id ? (
                       <CircularProgress
