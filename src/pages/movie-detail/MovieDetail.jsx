@@ -112,7 +112,7 @@ const MovieDetail = () => {
         </div>
       ) : (
         movieDetailContent && (
-          <DetailCard
+          <MovieDetailCard
             movie={movieDetailContent}
             onDeletePress={handleDelete}
             uponSuccesPress={() => {
@@ -135,7 +135,7 @@ const MovieDetail = () => {
   );
 };
 
-const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
+const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
   function convertMinutesStringToHours(minutesString) {
     const minutes = parseInt(minutesString.match(/\d+/)[0], 10);
     const hours = Math.floor(minutes / 60);
@@ -159,6 +159,11 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
   const isAdmin = checkIsAdmin ? JSON?.parse(getIsAdmin()) : false;
   const handleOpen = () => setUpdateModalOpen(true);
   const handleClose = () => setUpdateModalOpen(false);
+
+  const formattedTotalRating =
+    movie?.userRating % 1 === 0
+      ? movie?.userRating.toFixed(0)
+      : movie?.userRating?.toFixed(1) || "0";
 
   return (
     <div className="max-w-7xl mx-auto rounded-lg shadow-lg overflow-hidden">
@@ -202,7 +207,7 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
 
           <div className="flex items-center gap-3 text-white">
             <div>
-              <strong>IMDb RATING</strong>
+              <strong>IMDB RATING</strong>
               <p className="text-center">{movie.omdbRatings[0]?.value || 0}</p>
             </div>
             <div>
@@ -219,9 +224,7 @@ const DetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
             </div>
             <div>
               <strong>TOTAL RATING</strong>
-              <p className="text-center">
-                {movie?.userRating?.toFixed(1) || 0}
-              </p>
+              <p className="text-center">{formattedTotalRating}</p>
             </div>
           </div>
         </div>

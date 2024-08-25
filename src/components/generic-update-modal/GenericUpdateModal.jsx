@@ -203,7 +203,7 @@ export const GenericUpdateModal = ({ open, onClose, data, uponSucces }) => {
                 id={"omdbRating"}
                 name={"omdbRating"}
                 bgColor={"bg-white"}
-                label={"Omdb Ratings"}
+                label={"IMDB Rating"}
                 radius={"rounded-lg"}
                 placeholder={"Omdb Rating"}
                 value={values.omdbRating}
@@ -212,6 +212,7 @@ export const GenericUpdateModal = ({ open, onClose, data, uponSucces }) => {
                 handleBlur={handleBlur}
                 textColor={"text-black"}
               />
+
               <div className={`text-white font-semibold mb-2`}>{"Actors"}</div>
               <FieldArray
                 name="actors"

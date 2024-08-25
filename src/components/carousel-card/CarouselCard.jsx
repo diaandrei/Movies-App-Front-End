@@ -126,9 +126,14 @@ export const CarouselCard = ({
                 ? item?.title?.substring(0, 20) + "..."
                 : item?.title;
 
+            const formattedRating =
+              item?.userRating % 1 === 0
+                ? item?.userRating.toFixed(0)
+                : item?.userRating?.toFixed(1) || "0";
+
             return (
               <div
-                key={item.id} // Adding the key prop here
+                key={item.id}
                 className="flex flex-col mx-3 justify-between pb-4 bg-cardBg-400 rounded-lg shadow-md"
               >
                 <Link
@@ -155,9 +160,7 @@ export const CarouselCard = ({
                     <div className="flex text-yellow-400 items-center text-sm">
                       <strong className="text-white">Overall Rating: </strong>
                       <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
-                      <p className="text-white">
-                        {item?.userRating?.toFixed(1) || 0}
-                      </p>
+                      <p className="text-white">{formattedRating}</p>
                     </div>
                     <div>
                       <RatingModal
