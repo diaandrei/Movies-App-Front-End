@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
-import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 const labels = {
@@ -43,14 +42,17 @@ export function HoverRating({ value, setValue }) {
         onChangeActive={(event, newHover) => {
           setHover(newHover);
         }}
-        emptyIcon={
-          <StarBorderIcon style={{ color: "gray" }} fontSize="inherit" />
-        }
         icon={
-          <StarIcon
-            style={{ opacity: value === null ? 0.55 : 1 }}
+          <StarBorderIcon
+            style={{
+              color: value ? "#FFD700" : "gray",
+              opacity: value ? 1 : 0.55,
+            }}
             fontSize="inherit"
           />
+        }
+        emptyIcon={
+          <StarBorderIcon style={{ color: "gray" }} fontSize="inherit" />
         }
       />
       {value !== null && (

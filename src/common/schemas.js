@@ -51,12 +51,18 @@ export const createMovieSchema = Yup.object({
 export const updateMovieSchema = Yup.object({
   plot: Yup.string().required("Please provide a plot for the title."),
   omdbRating: Yup.number()
+    .typeError("IMDb rating must be a number between 1 and 100.")
     .required("Please enter the IMDb rating.")
-    .min(1, "The rating should be at least 1.")
-    .max(100, "The rating should not exceed 100."),
+    .min(1, "IMDb rating must be a number between 1 and 100.")
+    .max(100, "IMDb rating must be a number between 1 and 100."),
   actors: Yup.array()
-    .of(Yup.string().required("Please enter the name of the actor."))
+    .of(
+      Yup.string()
+        .required("Please enter the name of the actor.")
+        .matches(
+          /^[a-zA-Z\s]*$/,
+          "Actor names should only contain letters."
+        )
+    )
     .min(1, "Please include at least one actor in the cast."),
 });
-
-

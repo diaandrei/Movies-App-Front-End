@@ -3,9 +3,9 @@ import { Modal, Box, Typography } from "@mui/material";
 import { HoverRating } from "../hover-rating/HoverRating";
 import { GenericButton } from "../generic-button/GenericButton";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
 import { useLazyGetApiMoviesCreateRatingsQuery } from "../../redux/slice/movies.ts";
 import { toast } from "react-toastify";
-import StarIcon from "@mui/icons-material/Star";
 import { useDispatch } from "react-redux";
 import { setIsRated } from "../../redux/slice/ratingSlice.js";
 
@@ -54,34 +54,34 @@ export const RatingModal = ({
 
   return (
     <div>
-      {movieRating?.length > 0 && isLoggedIn ? (
-        <button
-          onClick={() => {
-            if (isLoggedIn) {
-              handleOpen();
-            } else {
-              openModal();
-            }
-          }}
-          className=" text-yellow-400 flex items-center gap-1 "
-        >
-          <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
-          <p className="text-white">{movieRating[0]?.rating}</p>
-        </button>
-      ) : (
-        <button
-          className=" cursor-pointer  hover:bg-darkBlue-700 shadow  px-2 text-white rounded-md overflow-hidden hover:scale-110"
-          onClick={() => {
-            if (isLoggedIn) {
-              handleOpen();
-            } else {
-              openModal();
-            }
-          }}
-        >
-          <StarBorderIcon color="inherit" />
-        </button>
-      )}
+      <button
+        onClick={() => {
+          if (isLoggedIn) {
+            handleOpen();
+          } else {
+            openModal();
+          }
+        }}
+        className="flex items-center gap-1"
+        style={{
+          cursor: "pointer",
+          transition: "transform 0.2s, opacity 0.2s",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.1)";
+          e.currentTarget.style.opacity = "0.8";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "scale(1)";
+          e.currentTarget.style.opacity = "1";
+        }}
+      >
+        {movieRating?.length > 0 ? (
+          <StarIcon style={{ color: "#FFD700" }} fontSize="medium" />
+        ) : (
+          <StarBorderIcon style={{ color: "gray" }} fontSize="medium" />
+        )}
+      </button>
       <Modal
         open={open}
         onClose={handleClose}

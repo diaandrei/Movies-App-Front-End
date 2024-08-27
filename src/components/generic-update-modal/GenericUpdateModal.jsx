@@ -203,7 +203,7 @@ export const GenericUpdateModal = ({ open, onClose, data, uponSucces }) => {
                 id={"omdbRating"}
                 name={"omdbRating"}
                 bgColor={"bg-white"}
-                label={"IMDB Rating"}
+                label={"IMDb Rating"}
                 radius={"rounded-lg"}
                 placeholder={"Omdb Rating"}
                 value={values.omdbRating}
