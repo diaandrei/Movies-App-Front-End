@@ -151,16 +151,21 @@ const Home = ({ isLoggedIn }) => {
   return (
     <div className="bg-black min-h-screen w-full ">
       <div className="max-w-7xl mx-auto p-5">
-        <ReactCarousel data={moviesList} isLoading={isLoading} />
+        <ReactCarousel
+          data={moviesList}
+          isLoading={isLoading}
+          autoPlaySpeed={10000}
+        />
         <CarouselCard
           title={"Featured Today"}
           data={mostRecentMoviesList}
           isLoading={recentMoviesLoader}
           onWatchListPress={fetchMostRecentMoviesList}
+          autoPlaySpeed={10000}
         />
         <CarouselCard
           title={"Top 10 on Movies this week"}
-          autoPlaySpeed={3000}
+          autoPlaySpeed={10000}
           data={topMoviesList}
           isLoading={topMoviesLoader}
           onWatchListPress={fetchTopMoviesList}
@@ -170,6 +175,7 @@ const Home = ({ isLoggedIn }) => {
           isLoading={fansFavoriteLoader}
           title={"Fan Favourites"}
           onWatchListPress={fetchFansFavoriteList}
+          autoPlaySpeed={10000}
         />
       </div>
     </div>

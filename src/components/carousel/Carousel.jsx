@@ -28,7 +28,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
               infiniteLoop
               showArrows={true}
               autoPlay
-              interval={5000}
+              interval={10000}
               showStatus={false}
               showThumbs={false}
               onChange={(e) => {
