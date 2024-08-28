@@ -159,8 +159,12 @@ export const CarouselCard = ({
                   <div className="flex items-center justify-between">
                     <div className="flex text-yellow-400 items-center text-sm">
                       <strong className="text-white">Overall Rating: </strong>
-                      <StarIcon style={{ opacity: 1 }} fontSize="inherit" />
-                      <p className="text-white">{formattedRating}</p>
+                      <StarIcon
+                        style={{ opacity: 1 }}
+                        fontSize="inherit"
+                        className="ml-1"
+                      />
+                      <p className="text-white ml-1">{formattedRating}</p>
                     </div>
                     <div>
                       <RatingModal

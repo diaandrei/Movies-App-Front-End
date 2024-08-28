@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography } from "@mui/material";
 import { HoverRating } from "../hover-rating/HoverRating";
 import { GenericButton } from "../generic-button/GenericButton";
@@ -15,21 +15,25 @@ export const RatingModal = ({
   isLoggedIn,
   movieId,
   movieRating,
-  ratingId,
 }) => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [value, setValue] = useState(movieRating[0]?.rating || 0);
   const [createRatingApi, { isLoading }] =
     useLazyGetApiMoviesCreateRatingsQuery();
 
+  useEffect(() => {
+    if (movieRating?.length > 0) {
+      setValue(movieRating[0].rating);
+    }
+  }, [movieRating]);
+
   const addRatingHandler = async () => {
-    let payload = {
+    const payload = {
       rating: value,
       movieId: movieId,
     };
+
     const updatingPayload = {
       rating: value,
       movieId: movieId,
@@ -37,51 +41,90 @@ export const RatingModal = ({
       userId: movieRating[0]?.userId,
     };
 
-    const response = await createRatingApi(
-      movieRating?.length > 0 ? updatingPayload : payload
-    );
-    const {
-      data: { success, title },
-    } = response;
-    if (response && success) {
-      toast.success(title);
-      dispatch(setIsRated(true));
-    } else {
-      toast.error(title);
+    try {
+      const response = await createRatingApi(
+        movieRating?.length > 0 ? updatingPayload : payload
+      );
+
+      const {
+        data: { success, title },
+      } = response;
+
+      if (response && success) {
+        toast.success(title);
+        dispatch(setIsRated(true));
+
+        setValue(value);
+      } else {
+        toast.error(title);
+      }
+    } catch (error) {
+      toast.error("An error occurred while submitting your rating.");
     }
+
     handleClose();
   };
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div>
-      <button
-        onClick={() => {
-          if (isLoggedIn) {
-            handleOpen();
-          } else {
-            openModal();
-          }
-        }}
-        className="flex items-center gap-1"
-        style={{
-          cursor: "pointer",
-          transition: "transform 0.2s, opacity 0.2s",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.1)";
-          e.currentTarget.style.opacity = "0.8";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "scale(1)";
-          e.currentTarget.style.opacity = "1";
-        }}
-      >
-        {movieRating?.length > 0 ? (
-          <StarIcon style={{ color: "#FFD700" }} fontSize="medium" />
-        ) : (
-          <StarBorderIcon style={{ color: "gray" }} fontSize="medium" />
-        )}
-      </button>
+      {movieRating?.length > 0 && isLoggedIn ? (
+        <div
+          className="flex items-center gap-1"
+          style={{
+            cursor: "pointer",
+            transition: "transform 0.2s, background-color 0.2s",
+            padding: "8px",
+            borderRadius: "4px",
+            minHeight: "32px",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.05)";
+            e.currentTarget.style.backgroundColor = "#64748b";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.backgroundColor = "transparent";
+          }}
+          onClick={handleOpen}
+        >
+          <StarIcon
+            style={{ color: "#FFD700", fontSize: "20px" }}
+            fontSize="inherit"
+          />
+          <span className="text-white" style={{ marginLeft: "4px" }}>
+            {movieRating[0]?.rating}
+          </span>
+        </div>
+      ) : (
+        <button
+          className="cursor-pointer shadow px-2 text-white rounded-md overflow-hidden"
+          style={{
+            transition: "transform 0.2s, background-color 0.2s",
+            padding: "8px",
+            borderRadius: "4px",
+            backgroundColor: "transparent",
+            minHeight: "32px",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.05)";
+            e.currentTarget.style.backgroundColor = "#64748b";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+            e.currentTarget.style.backgroundColor = "transparent";
+          }}
+          onClick={handleOpen}
+        >
+          <StarBorderIcon
+            color="inherit"
+            style={{ fontSize: "20px" }}
+            fontSize="inherit"
+          />
+        </button>
+      )}
       <Modal
         open={open}
         onClose={handleClose}

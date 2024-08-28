@@ -184,8 +184,9 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
             </button>
           </div>
         )}
+
         <div className="flex items-center justify-between">
-          <div>
+          <div className="flex-1">
             <h1 className="text-3xl font-bold mb-2 text-white">
               {movie.title}
             </h1>
@@ -205,12 +206,14 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 text-white">
-            <div>
+          <div className="flex items-center gap-6 text-white">
+            <div className="flex flex-col items-center">
               <strong>IMDB RATING</strong>
-              <p className="text-center">{movie.omdbRatings[0]?.value || 0}</p>
+              <p className="text-center mt-2">
+                {movie.omdbRatings[0]?.value || 0}
+              </p>
             </div>
-            <div>
+            <div className="gap-4 mt-2">
               <strong>YOUR RATING</strong>
               <div className="flex items-center justify-center">
                 <RatingModal
@@ -222,9 +225,9 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
                 />
               </div>
             </div>
-            <div>
+            <div className="flex flex-col items-center">
               <strong>TOTAL RATING</strong>
-              <p className="text-center">{formattedTotalRating}</p>
+              <p className="text-cente mt-2">{formattedTotalRating}</p>
             </div>
           </div>
         </div>
