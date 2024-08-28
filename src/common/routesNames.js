@@ -5,6 +5,7 @@ import {
   MovieDetail,
   CreateMovie,
   SignIn,
+  NotFoundPage,
 } from "../pages";
 
 export const path = {
@@ -14,7 +15,9 @@ export const path = {
   signIn: "/sign-in",
   movieDetail: "/movie/:id",
   createMovie: "/create-title",
+  notFound: "/not-found", 
 };
+
 export const routes = {
   home: `/`,
   watchList: "/watchlist",
@@ -22,6 +25,7 @@ export const routes = {
   signIn: "/sign-in",
   movieDetail: "/movie/:id",
   createMovie: "/create-title",
+  notFound: "/not-found",
 };
 
 export const titles = {
@@ -31,6 +35,7 @@ export const titles = {
   signIn: "Sign In",
   movieDetail: "Title Detail",
   createMovie: "Create Title",
+  notFound: "Page Not Found", 
 };
 
 export const privatePageRoutes = {
@@ -57,7 +62,13 @@ export const privatePageRoutes = {
     path: path.createMovie,
     title: titles.createMovie,
     component: CreateMovie,
-  }
+  },
+  [routes.notFound]: {
+    name: routes.notFound,
+    path: path.notFound,
+    title: titles.notFound,
+    component: NotFoundPage, 
+  },
 };
 
 export const publicPageRoutes = {
@@ -84,6 +95,12 @@ export const publicPageRoutes = {
     path: path.movieDetail,
     title: titles.movieDetail,
     component: MovieDetail,
+  },
+  [routes.notFound]: {
+    name: routes.notFound,
+    path: path.notFound,
+    title: titles.notFound,
+    component: NotFoundPage,  
   },
 };
 
