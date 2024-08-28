@@ -127,7 +127,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
           <div className="hidden md:flex space-x-4">
             <button
               className={`hover:text-gray-300 ${
-                pathname == path.watchList && "bg-gray-600"
+                pathname === path.watchList ? "bg-gray-600" : ""
               } shadow p-1 rounded-md text-white flex`}
               onClick={checkSession}
             >
@@ -152,7 +152,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
               <>
                 <button
                   className={`hover:text-gray-300 ${
-                    open && "bg-gray-600"
+                    open ? "bg-gray-600" : ""
                   } shadow p-1 rounded-md text-white flex`}
                   onClick={handleOpen}
                 >
@@ -165,7 +165,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
                 <a
                   href={"/create-title"}
                   className={`hover:text-gray-300 ${
-                    pathname == path.createMovie && "bg-gray-600"
+                    pathname === path.createMovie ? "bg-gray-600" : ""
                   } shadow p-1 rounded-md text-white flex`}
                 >
                   {"Create"}
@@ -186,7 +186,7 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
               <a
                 href="/sign-up"
                 className={`hover:text-gray-300 ${
-                  pathname == path.signUp && "bg-gray-600"
+                  pathname === path.signUp ? "bg-gray-600" : ""
                 } shadow p-1 rounded-md text-white flex`}
               >
                 Sign Up
@@ -340,6 +340,17 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
                     thickness={5}
                     sx={{ color: "black" }}
                   />
+                ) : isLoggedIn ? (
+                  <>
+                    {"No results found. Want to add it yourself?  "}
+                    <br />
+                    <a
+                      href={path.createMovie}
+                      className="text-blue-400 underline"
+                    >
+                      Create a new title here
+                    </a>
+                  </>
                 ) : (
                   "No results found"
                 )}
