@@ -116,7 +116,13 @@ export const RatingModal = ({
             e.currentTarget.style.transform = "scale(1)";
             e.currentTarget.style.backgroundColor = "transparent";
           }}
-          onClick={handleOpen}
+          onClick={() => {
+            if (isLoggedIn) {
+              handleOpen();
+            } else {
+              openModal();
+            }
+          }}
         >
           <StarBorderIcon
             color="inherit"

@@ -60,7 +60,7 @@ export const updateMovieSchema = Yup.object({
       Yup.string()
         .required("Please enter the name of the actor.")
         .matches(
-          /^[a-zA-Z\s]*$/,
+          /^[\p{L}\p{P}\s]+$/u,
           "Actor names should only contain letters."
         )
     )
