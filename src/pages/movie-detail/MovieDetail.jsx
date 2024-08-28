@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteApiMoviesDeleteMovieMutation,
   useLazyGetApiMoviesGetByIdQuery,
+  useLazyGetApiMoviesAddMovieWatchListQuery,
 } from "../../redux/slice/movies.ts";
 import { GoDotFill } from "react-icons/go";
 import { CircularProgress } from "@mui/material";
@@ -16,6 +17,8 @@ import { getIsAdmin, getToken } from "../../utils/LocalStorage.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsRated } from "../../redux/slice/ratingSlice.js";
 import { MdModeEdit, MdDeleteOutline } from "react-icons/md";
+import { FiPlus } from "react-icons/fi";
+import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { path } from "../../common/routesNames.js";
 
@@ -144,6 +147,12 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
 
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [modalIsOpen, setIsModalOpen] = useState(false);
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [addMoviesToWatchListApi] = useLazyGetApiMoviesAddMovieWatchListQuery();
+
+  const isLoggedIn = getToken();
+  const checkIsAdmin = getIsAdmin();
+  const isAdmin = checkIsAdmin ? JSON?.parse(getIsAdmin()) : false;
 
   function openModal() {
     setIsModalOpen(true);
@@ -153,9 +162,25 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
     setIsModalOpen(false);
   }
 
-  const isLoggedIn = getToken();
-  const checkIsAdmin = getIsAdmin();
-  const isAdmin = checkIsAdmin ? JSON?.parse(getIsAdmin()) : false;
+  const addToWatchlistHandler = async () => {
+    if (isLoggedIn) {
+      setBtnLoader(true);
+      let response = await addMoviesToWatchListApi({ movieId: movie.id });
+      const {
+        data: { success, title },
+      } = response;
+      if (response && success) {
+        toast.success(title);
+        uponSuccesPress();
+      } else {
+        toast.error(title);
+      }
+      setBtnLoader(false);
+    } else {
+      openModal();
+    }
+  };
+
   const handleOpen = () => setUpdateModalOpen(true);
   const handleClose = () => setUpdateModalOpen(false);
 
@@ -168,7 +193,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
     <div className="max-w-7xl mx-auto rounded-lg shadow-lg overflow-hidden">
       <>
         {isAdmin && isLoggedIn && (
-          <div className="flex items-center justify-end my-3">
+          <div className="flex items-center justify-start my-3">
             <button
               onClick={handleOpen}
               className="mt-4 md:mt-0 flex items-center justify-center bg-darkBlue-800 h-11 w-12 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 mr-2 hover:scale-110 transition-transform"
@@ -226,10 +251,30 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
             </div>
             <div className="flex flex-col items-center">
               <strong>TOTAL RATING</strong>
-              <p className="text-cente mt-2">{formattedTotalRating}</p>
+              <p className="text-center mt-2">{formattedTotalRating}</p>
             </div>
+
+            <button
+              disabled={btnLoader || movie?.isMovieWatchlist}
+              onClick={addToWatchlistHandler}
+              className="disabled:bg-gray-900 flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg"
+            >
+              {btnLoader ? (
+                <CircularProgress
+                  size={20}
+                  thickness={6}
+                  sx={{ color: "white" }}
+                />
+              ) : movie?.isMovieWatchlist ? (
+                <IoCheckmarkDoneCircleSharp size={20} />
+              ) : (
+                <FiPlus size={20} />
+              )}
+              {/* <div>{"Watchlist"}</div> */}
+            </button>
           </div>
         </div>
+
         <div className="flex flex-col gap-2">
           <div className="h-[50%]">
             <div className="flex justify-center items-center my-2 rounded">
