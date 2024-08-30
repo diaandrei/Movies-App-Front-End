@@ -193,7 +193,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
     <div className="max-w-7xl mx-auto rounded-lg shadow-lg overflow-hidden">
       <>
         {isAdmin && isLoggedIn && (
-          <div className="flex items-center justify-start my-3">
+          <div className="flex items-center justify-end my-3">
             <button
               onClick={handleOpen}
               className="mt-4 md:mt-0 flex items-center justify-center bg-darkBlue-800 h-11 w-12 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 mr-2 hover:scale-110 transition-transform"
@@ -210,11 +210,28 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
         )}
 
         <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-2 text-white">
-              {movie.title}
-            </h1>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col flex-1">
+            <div className="flex items-center">
+              <h1 className="text-3xl font-bold text-white">{movie.title}</h1>
+              <button
+                disabled={btnLoader || movie?.isMovieWatchlist}
+                onClick={addToWatchlistHandler}
+                className="ml-4 disabled:bg-gray-900 flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg"
+              >
+                {btnLoader ? (
+                  <CircularProgress
+                    size={20}
+                    thickness={6}
+                    sx={{ color: "white" }}
+                  />
+                ) : movie?.isMovieWatchlist ? (
+                  <IoCheckmarkDoneCircleSharp size={20} />
+                ) : (
+                  <FiPlus size={20} />
+                )}
+              </button>
+            </div>
+            <div className="flex items-center gap-3 mt-2">
               <span className="text-sm text-white">
                 {movie.rated || "TV-MA"}
               </span>
@@ -237,7 +254,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
                 {movie.omdbRatings[0]?.value || 0}
               </p>
             </div>
-            <div className="gap-4 mt-2">
+            <div className="flex flex-col items-center mt-2">
               <strong>YOUR RATING</strong>
               <div className="flex items-center justify-center">
                 <RatingModal
@@ -253,29 +270,10 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
               <strong>TOTAL RATING</strong>
               <p className="text-center mt-2">{formattedTotalRating}</p>
             </div>
-
-            <button
-              disabled={btnLoader || movie?.isMovieWatchlist}
-              onClick={addToWatchlistHandler}
-              className="disabled:bg-gray-900 flex items-center justify-center gap-2 hover:bg-darkBlue-800 bg-[#2C2C2C] text-white font-bold py-2 px-4 rounded-lg"
-            >
-              {btnLoader ? (
-                <CircularProgress
-                  size={20}
-                  thickness={6}
-                  sx={{ color: "white" }}
-                />
-              ) : movie?.isMovieWatchlist ? (
-                <IoCheckmarkDoneCircleSharp size={20} />
-              ) : (
-                <FiPlus size={20} />
-              )}
-              {/* <div>{"Watchlist"}</div> */}
-            </button>
           </div>
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-4">
           <div className="h-[50%]">
             <div className="flex justify-center items-center my-2 rounded">
               <img
@@ -298,7 +296,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
               ))}
             </div>
           </div>
-          <div className="text-white">
+          <div className="text-white mt-4">
             <strong>{movie.plot}</strong>
           </div>
           <div>
@@ -313,7 +311,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
               ))}
             </ul>
           </div>
-          <div className="flex items-center text-white">
+          <div className="flex items-center text-white mt-4">
             <strong>Released: </strong>
             <p className="ml-2">{movie.released}</p>
           </div>
