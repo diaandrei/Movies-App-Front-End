@@ -55,10 +55,10 @@ const MovieDetail = () => {
         setMovieDetailContent(content || null);
         dispatch(setIsRated(false));
       } else {
-        navigate(path.notFound, { replace: true });
+        navigate(path.home, { replace: true });
       }
     } catch (error) {
-      navigate(path.notFound, { replace: true });
+      navigate(path.home, { replace: true });
     }
   };
 
