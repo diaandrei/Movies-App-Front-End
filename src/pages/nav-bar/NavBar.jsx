@@ -112,8 +112,15 @@ const NavBar = ({ onSearch, isLoggedIn }) => {
       <nav className="bg-[#121212] p-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-end  space-x-4 w-1/2    ">
-            <a href="/" className="text-white text-2xl font-bold ">
-              <img src={logoImage} className=" w-24  " alt="logo" />
+            <a
+              href="/"
+              className="flex justify-center items-center text-white text-2xl flex-shrink-0"
+            >
+              <img
+                src={logoImage}
+                className="max-h-8 w-auto transform translate-y-[-10%]"
+                alt="logo"
+              />
             </a>
             <div className="hidden w-full  md:block">
               <SearchBar
