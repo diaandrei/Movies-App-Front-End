@@ -263,7 +263,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
                       clipPath: `inset(${100 - imdbRating}% 0 0 0)`,
                     }}
                   >
-                    <FaTrophy size={24} className="text-yellow-300" />
+                    <FaTrophy size={24} className="text-yellow-500" />
                   </div>
                 </div>
                 <p className="text-center ml-2">{Math.round(imdbRating)}%</p>
