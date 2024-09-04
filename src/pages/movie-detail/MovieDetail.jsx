@@ -19,6 +19,7 @@ import { setIsRated } from "../../redux/slice/ratingSlice.js";
 import { MdModeEdit, MdDeleteOutline } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import { IoCheckmarkDoneCircleSharp } from "react-icons/io5";
+import { FaTrophy, FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { path } from "../../common/routesNames.js";
 
@@ -189,6 +190,8 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
       ? movie?.userRating.toFixed(0)
       : movie?.userRating?.toFixed(1) || "0";
 
+  const imdbRating = parseFloat(movie.omdbRatings[0]?.value || 0);
+
   return (
     <div className="max-w-7xl mx-auto rounded-lg shadow-lg overflow-hidden">
       <>
@@ -202,7 +205,7 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
             </button>
             <button
               onClick={() => onDeletePress(movie.id)}
-              className="mt-4 md:mt-0 flex items-center justify-center h-11 w-12 bg-red-700 shadow-md text-white rounded-md hover:scale-110 transition-transform"
+              className="mt-4 md:mt-0 flex items-center justify-center h-11 w-12 bg-red-700 shadow-md text-white rounded-md hover:scale-105 transition-transform overflow-visible"
             >
               <MdDeleteOutline size={20} />
             </button>
@@ -250,9 +253,21 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
           <div className="flex items-center gap-6 text-white">
             <div className="flex flex-col items-center">
               <strong>IMDB RATING</strong>
-              <p className="text-center mt-2">
-                {movie.omdbRatings[0]?.value || 0}
-              </p>
+              <div className="flex items-center mt-2">
+                <div className="relative w-6 h-6">
+                  <FaTrophy size={24} className="text-gray-500" />
+                  <div
+                    className="absolute top-0 left-0 w-full overflow-hidden"
+                    style={{
+                      height: "100%",
+                      clipPath: `inset(${100 - imdbRating}% 0 0 0)`,
+                    }}
+                  >
+                    <FaTrophy size={24} className="text-yellow-300" />
+                  </div>
+                </div>
+                <p className="text-center ml-2">{Math.round(imdbRating)}%</p>
+              </div>
             </div>
             <div className="flex flex-col items-center mt-2">
               <strong>YOUR RATING</strong>
@@ -268,11 +283,13 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
             </div>
             <div className="flex flex-col items-center">
               <strong>TOTAL RATING</strong>
-              <p className="text-center mt-2">{formattedTotalRating}</p>
+              <div className="flex items-center justify-center mt-2">
+                <FaStar size={16} className="text-blue-500 mr-2" />
+                <p className="">{formattedTotalRating}</p>
+              </div>
             </div>
           </div>
         </div>
-
         <div className="flex flex-col gap-2 mt-4">
           <div className="h-[50%]">
             <div className="flex justify-center items-center my-2 rounded">
@@ -283,7 +300,6 @@ const MovieDetailCard = ({ movie, onDeletePress, uponSuccesPress }) => {
               />
             </div>
           </div>
-
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
               {movie?.genres?.map((item, index) => (
