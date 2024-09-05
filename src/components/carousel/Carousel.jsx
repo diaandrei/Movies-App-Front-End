@@ -3,6 +3,8 @@ import { CircularProgress } from "@mui/material";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { Link } from "react-router-dom";
+import "./style.css";
 
 export const ReactCarousel = ({ data, isLoading }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,18 +16,19 @@ export const ReactCarousel = ({ data, isLoading }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full my-7 rounded-lg  gap-5">
+    <div className="flex flex-col lg:flex-row w-full my-7 rounded-lg gap-5">
       {isLoading ? (
         <div className="h-[700px] flex w-full justify-center items-center">
           <CircularProgress size={40} thickness={6} sx={{ color: "white" }} />
         </div>
       ) : data?.length > 0 ? (
         <>
-          <div className="lg:w-4/5 relative -z-0 ">
+          <div className="lg:w-4/5 relative">
             <Carousel
               infiniteLoop
               showArrows={true}
               autoPlay
+              interval={10000}
               showStatus={false}
               showThumbs={false}
               onChange={(e) => {
@@ -33,30 +36,43 @@ export const ReactCarousel = ({ data, isLoading }) => {
               }}
             >
               {data?.map((item, index) => (
-                <div
+                <Link
+                  to={`/movie/${item?.id}`}
                   key={index}
-                  className="flex flex-col  justify-between  rounded-lg shadow-md"
+                  className="flex flex-col justify-between rounded-lg shadow-md cursor-pointer"
                 >
-                  <div className="relative group overflow-hidden  lg:h-[700px] h-[300px] rounded-lg">
-                    <img
-                      src={item?.poster}
-                      alt={item?.title}
-                      className="w-full h-full object-fill transform transition-transform rounded-t-md group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-none group-hover:backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all">
-                      <div className="text-center text-white">
+                  <div className="relative group overflow-hidden lg:h-[700px] h-[300px] rounded-lg bg-black flex items-center justify-center">
+                    <div
+                      className="absolute inset-0 bg-cover bg-center blur-lg"
+                      style={{
+                        backgroundImage: `url(${item?.poster})`,
+                      }}
+                    ></div>
+                    <div className="relative z-10 flex items-center justify-center">
+                      <img
+                        src={item?.poster}
+                        alt={item?.title}
+                        className="object-contain"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      />
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-filter backdrop-blur-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                      <div className="text-center text-white p-2">
                         <p className="text-lg font-bold">{item.title}</p>
-                        <p className="text-sm">Director: {item.released}</p>
+                        <p className="text-sm">Released: {item.released}</p>
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </Carousel>
           </div>
-          <div className="lg:w-1/5 ml-4 ">
+          <div className="lg:w-1/5 ml-4">
             <span className="font-bold text-lg text-gold-500">Up Next</span>
-            <div className="bg-[#1f1f1f] overflow-y-scroll lg:h-[36rem] mt-2 p-2 rounded-md">
+            <div className="bg-[#1f1f1f] overflow-y-scroll hide-scrollbar lg:h-[662px] mt-2 p-2 rounded-md">
               <TransitionGroup>
                 {getRequiredData()?.map((item) => {
                   return (
@@ -70,7 +86,10 @@ export const ReactCarousel = ({ data, isLoading }) => {
                         exitActive: "",
                       }}
                     >
-                      <div className=" flex items-center justify-center cursor-pointer mb-5">
+                      <Link
+                        to={`/movie/${item?.id}`}
+                        className="flex items-center justify-center cursor-pointer mb-5"
+                      >
                         <div className="w-1/2 h-32">
                           <img
                             className="h-full w-full object-cover rounded-md"
@@ -81,7 +100,7 @@ export const ReactCarousel = ({ data, isLoading }) => {
                           <h2 className="text-base font-bold">{item.title}</h2>
                           <p className="mt-1 text-sm">{item.released}</p>
                         </div>
-                      </div>
+                      </Link>
                     </CSSTransition>
                   );
                 })}

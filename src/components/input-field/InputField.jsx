@@ -21,6 +21,7 @@ export function InputField({
   bgColor,
   radius,
   height,
+  labelColor,
   ...props
 }) {
   const [isEyeOpen, setIsEyeOpen] = useState(false);
@@ -29,7 +30,7 @@ export function InputField({
       {label && (
         <div
           className={` ${
-            textColor ? textColor : "text-white"
+            labelColor ? labelColor : "text-white"
           } font-semibold mb-2 `}
         >
           {label}

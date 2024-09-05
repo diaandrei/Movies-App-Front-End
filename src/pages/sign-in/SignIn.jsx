@@ -9,7 +9,7 @@ const SignIn = () => {
           <div className="circular-gradient p-10 mt-8 sm:mx-auto sm:w-full sm:max-w-md drop-shadow rounded-lg ">
             <div className="sm:mx-auto sm:w-full sm:max-w-md mb-4">
               <h2 className=" text-3xl font-extrabold text-white">
-                Sign In to Watch Your Favorites!
+                Sign In to Watch Your Favourites!
               </h2>
             </div>
             <SignInForm />

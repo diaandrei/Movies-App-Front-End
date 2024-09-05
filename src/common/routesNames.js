@@ -4,27 +4,28 @@ import {
   WatchList,
   MovieDetail,
   CreateMovie,
-  MoviesList,
   SignIn,
+  NotFoundPage,
 } from "../pages";
 
 export const path = {
   home: `/`,
-  watchList: "/watch-list",
+  watchList: "/watchlist",
   signUp: "/sign-up",
   signIn: "/sign-in",
   movieDetail: "/movie/:id",
-  createMovie: "/create-movie",
-  moviesList: "/movies-list",
+  createMovie: "/create-title",
+  notFound: "/not-found", 
 };
+
 export const routes = {
   home: `/`,
-  watchList: "/watch-list",
+  watchList: "/watchlist",
   signUp: "/sign-up",
   signIn: "/sign-in",
   movieDetail: "/movie/:id",
-  createMovie: "/create-movie",
-  moviesList: "/movies-list",
+  createMovie: "/create-title",
+  notFound: "/not-found",
 };
 
 export const titles = {
@@ -32,9 +33,9 @@ export const titles = {
   watchList: "Watchlist",
   signUp: "Sign Up",
   signIn: "Sign In",
-  movieDetail: "Movie Detail",
-  createMovie: "Create Movie",
-  moviesList: "Movie List",
+  movieDetail: "Title Detail",
+  createMovie: "Create Title",
+  notFound: "Page Not Found", 
 };
 
 export const privatePageRoutes = {
@@ -62,11 +63,11 @@ export const privatePageRoutes = {
     title: titles.createMovie,
     component: CreateMovie,
   },
-  [routes.moviesList]: {
-    name: routes.moviesList,
-    path: path.moviesList,
-    title: titles.moviesList,
-    component: MoviesList,
+  [routes.notFound]: {
+    name: routes.notFound,
+    path: path.notFound,
+    title: titles.notFound,
+    component: NotFoundPage, 
   },
 };
 
@@ -94,6 +95,12 @@ export const publicPageRoutes = {
     path: path.movieDetail,
     title: titles.movieDetail,
     component: MovieDetail,
+  },
+  [routes.notFound]: {
+    name: routes.notFound,
+    path: path.notFound,
+    title: titles.notFound,
+    component: NotFoundPage,  
   },
 };
 

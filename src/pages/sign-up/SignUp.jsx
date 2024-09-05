@@ -81,7 +81,7 @@ const SignUp = () => {
               <div className="circular-gradient p-10 mt-8 sm:mx-auto sm:w-full sm:max-w-md drop-shadow rounded-lg ">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md mb-4">
                   <h2 className=" text-3xl font-extrabold text-white">
-                    Create account
+                    Create Account
                   </h2>
                 </div>
                 <InputField
@@ -127,8 +127,13 @@ const SignUp = () => {
                     isLoading={isLoading}
                     title={"Sign Up"}
                   />
-                  <p className="mt-1 cursor-pointer hover:text-blue-800  hover:underline text-sm text-blue-900 text-center">
-                    <a href="/sign-in">Already have an account ?</a>
+                  <p className="mt-4 cursor-pointer hover:text-blue-800  hover:underline text-sm text-blue-900 text-center">
+                    <a
+                      href="/sign-in"
+                      className="text-blue-400 hover:text-blue-300 hover:underline font-semibold"
+                    >
+                      Already have an account ?
+                    </a>
                   </p>
                 </div>
               </div>

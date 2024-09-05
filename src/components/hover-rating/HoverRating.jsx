@@ -48,7 +48,10 @@ export function HoverRating({ value, setValue }) {
         }
         icon={
           <StarIcon
-            style={{ opacity: value === null ? 0.55 : 1 }}
+            style={{
+              color: "#FFD700",
+              opacity: value === null ? 0.55 : 1,
+            }}
             fontSize="inherit"
           />
         }

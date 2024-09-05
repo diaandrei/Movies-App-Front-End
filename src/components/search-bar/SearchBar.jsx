@@ -10,13 +10,13 @@ export const SearchBar = ({ value, onChange, onClear, isLoading }) => {
   return (
     <form
       onSubmit={handleSearch}
-      className="flex items-center  border-b-2  border-teal-500 py-2"
+      className="flex items-center border-b-2 border-teal-500 py-2"
     >
       <input
         type="text"
         placeholder="Search for a title..."
-        className="appearance-none  bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
-        value={value}
+        className="appearance-none bg-transparent border-none w-full text-white mr-3 py-1 px-2 leading-tight focus:outline-none"
+        value={value || ""}
         onChange={onChange}
       />
 

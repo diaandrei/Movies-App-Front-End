@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
-import {persistReducer} from 'redux-persist';
+import { createSlice } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const persistConfig = {
