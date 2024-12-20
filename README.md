@@ -33,8 +33,11 @@ Make sure you have the following installed on your system:
    ```
 
 2. Navigate to the project directory:
+    ```bash
+   cd
+   ```
 
-3. Install dependencies:
+4. Install dependencies:
    Using npm:
    ```bash
    npm install
@@ -44,7 +47,7 @@ Make sure you have the following installed on your system:
    yarn install
    ```
 
-4. Start the development server:
+5. Start the development server:
    ```bash
    npm start
    ```
