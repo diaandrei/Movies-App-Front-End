@@ -34,7 +34,7 @@ Make sure you have the following installed on your system:
 
 2. Navigate to the project directory:
     ```bash
-   cd
+   cd Movies-App-Front-End
    ```
 
 4. Install dependencies:
