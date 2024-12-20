@@ -33,8 +33,6 @@ Make sure you have the following installed on your system:
    ```
 
 2. Navigate to the project directory:
-   ```bash
-   ```
 
 3. Install dependencies:
    Using npm:
@@ -81,7 +79,7 @@ Make sure you have the following installed on your system:
 
 ## Live Demo
 
-You can test the application here: [Movies App Live Demo](https://moviesfrontend.azurewebsites.net/)
+You can test the application here: [Movies App](https://moviesfrontend.azurewebsites.net/)
 
 ---
 
